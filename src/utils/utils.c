@@ -6,11 +6,11 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:53:04 by skaynar           #+#    #+#             */
-/*   Updated: 2025/05/02 17:46:57 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/05/06 15:44:43 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -25,7 +25,8 @@ int	ft_strcmp(char *s1, char *s2)
 void	clear_array(char **array)
 {
 	int	i;
-
+	if (!array)
+		return ;
 	i = 0;
 	while (array[i])
 		free(array[i++]);
@@ -56,4 +57,26 @@ int sizeof_array(char **av)
 	while(av[i])
 		i++;
 	return(i);
+}
+
+char    **copy_env(char **env)
+{
+    int     size;
+    size = 0;
+    int     i;
+    i = 0;
+    char    **new_env;
+
+    while (env[size])
+        size++;
+    new_env = malloc(sizeof(char *) * (size + 1));
+    if (!new_env)
+        return (NULL);
+    while (i < size)
+    {
+        new_env[i] = ft_strdup(env[i]);
+        i++;
+    }
+    new_env[i] = NULL;
+    return (new_env);
 }

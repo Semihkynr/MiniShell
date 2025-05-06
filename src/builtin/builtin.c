@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:12:30 by skaynar           #+#    #+#             */
-/*   Updated: 2025/05/03 18:17:22 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/05/06 17:01:01 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,58 +66,54 @@ void	cmd_echo(char *echo)
 	clear_array(args);
 }
 
-void builtin(char *read , t_shell *shell)
+void builtin(char *read , t_shell *shell, t_stack **env, t_stack **env_exp)
 {
     char **temp;
     temp = ft_split(read , ' ');
-    
+    shell->temp = temp;
     if(ft_strcmp(temp[0], "echo") == 0)
         cmd_echo(read);
     else if(ft_strcmp(temp[0], "cd") == 0)
         cmd_cd(read);
     else if(ft_strcmp(temp[0], "pwd") == 0)
         cmd_pwd();
-    // else if(ft_strcmp(temp[0], "export") == 0)
-    // {
-    //     cmd_export(shell, temp);
-    // }
+    else if(ft_strcmp(temp[0], "export") == 0)
+        cmd_export(temp, env_exp);
     // else if(ft_strcmp(temp[0], "unset") == 0)
     //     cmd_unset(split[0]);
     else if(ft_strcmp(temp[0], "env") == 0)
-        cmd_env(shell);
+            cmd_env(env);
     // else if(ft_strcmp(temp[0], "exit") == 0)
     //     cmd_exit(split[0]);
     else
         return;
+    (void)env_exp;
 }
 
 int is_builtin(char *read)
 {
     char **temp;
     temp = ft_split(read , ' ');
+    
     if(!temp[0])
         return(0);
     if(ft_strcmp(temp[0], "echo") == 0)
-        return(1);
+        return(clear_array(temp), 1);
     else if(ft_strcmp(temp[0], "cd") == 0)
-        return(1);
+        return(clear_array(temp), 1);
     else if(ft_strcmp(temp[0], "pwd") == 0)
-        return(1);
+        return(clear_array(temp), 1);
     else if(ft_strcmp(temp[0], "export") == 0)
-        return(1);
+        return(clear_array(temp), 1);
     else if(ft_strcmp(temp[0], "unset") == 0)
-        return(1);
+        return(clear_array(temp), 1);
     else if(ft_strcmp(temp[0], "env") == 0)
-        return(1);
+        return(clear_array(temp), 1);
     else if(ft_strcmp(temp[0], "exit") == 0)
-        return(1);
+        return(clear_array(temp), 1);
     else
-        return(0);
+        return(clear_array(temp), 0);
 }
-// echo with option -n
-// ◦ cd with only a relative or absolute path
-// ◦ pwd with no options
 // ◦ export with no options
 // ◦ unset with no options
-// ◦ env with no options or arguments
 // ◦ exit with no options

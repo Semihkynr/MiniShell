@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 14:14:18 by skaynar           #+#    #+#             */
-/*   Updated: 2024/10/28 16:26:41 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:47:10 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,3 +78,4 @@ char	**ft_split(char const *s, char c)
 	str[j] = NULL;
 	return (str);
 }
+
