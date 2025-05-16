@@ -6,13 +6,13 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 13:51:24 by skaynar           #+#    #+#             */
-/*   Updated: 2025/05/06 15:34:03 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/05/10 15:02:52 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_stack	*ft_lstnew(char *var , char *value)
+t_stack	*ft_lstnew(char *var, char *value)
 {
 	t_stack	*node;
 
@@ -20,7 +20,18 @@ t_stack	*ft_lstnew(char *var , char *value)
 	if (!node)
 		return (0);
 	node->var = var;
-	node->value = value;
+	if (value && value[0])
+	{
+		node->equals = '=';
+		node->nail = '"';
+		node->value = value;
+	}
+	else
+	{
+		node->equals = 0;
+		node->nail = 0;
+		node->value = ft_strdup("");
+	}
 	node->next = NULL;
 	return (node);
 }

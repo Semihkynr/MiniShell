@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:12:30 by skaynar           #+#    #+#             */
-/*   Updated: 2025/05/06 17:01:01 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/05/12 17:25:17 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,29 @@ void cmd_pwd()
     free(pwd);
 }
 
-void    cmd_cd(char *cd)
+void    cmd_cd(char **cd)
 {
     struct stat info;
-    char **av;
-    av = ft_split(cd , ' ');
-    if(sizeof_array(av) > 2)
+
+    if(sizeof_array(cd) > 2)
         printf("bash: cd: too many arguments\n");
-    else if(sizeof_array(av) == 1 || ft_strcmp(av[1], "~") == 0 )
+    else if(sizeof_array(cd) == 1 || ft_strcmp(cd[1], "~") == 0 )
         chdir(getenv("HOME"));
-    else if (stat(av[1], &info) != 0)
-        printf("bash: cd: %s: No such file or directory\n", av[1]);
+    else if (stat(cd[1], &info) != 0)
+        printf("bash: cd: %s: No such file or directory\n", cd[1]);
     else if (!S_ISDIR(info.st_mode))
-        printf("bash: cd: %s: Not a directory\n", av[1]);
+        printf("bash: cd: %s: Not a directory\n", cd[1]);
     else
-        chdir(av[1]); 
+        chdir(cd[1]); 
 }
 
-void	cmd_echo(char *echo)
+void	cmd_echo(char **args)
 {
-	char	**args;
 	int	i;
 	bool newline;
     
     newline = true;
-    i = 1;
-	args = ft_split(echo, ' ');
-    
+    i = 1;    
 	if (!args)
         return ;
 	while (args[i] && ft_n(args[i], "-n") == 0)
@@ -63,56 +59,52 @@ void	cmd_echo(char *echo)
 	}
 	if (newline)
 		printf("\n");
-	clear_array(args);
 }
 
-void builtin(char *read , t_shell *shell, t_stack **env, t_stack **env_exp)
+void builtin(t_shell *shell, t_stack **env, t_stack **env_exp)
 {
-    char **temp;
-    temp = ft_split(read , ' ');
-    shell->temp = temp;
-    if(ft_strcmp(temp[0], "echo") == 0)
-        cmd_echo(read);
-    else if(ft_strcmp(temp[0], "cd") == 0)
-        cmd_cd(read);
-    else if(ft_strcmp(temp[0], "pwd") == 0)
+    if(ft_strcmp(shell->temp[0], "echo") == 0)
+        cmd_echo(shell->temp);
+    else if(ft_strcmp(shell->temp[0], "cd") == 0)
+        cmd_cd(shell->temp);
+    else if(ft_strcmp(shell->temp[0], "pwd") == 0)
         cmd_pwd();
-    else if(ft_strcmp(temp[0], "export") == 0)
-        cmd_export(temp, env_exp);
-    // else if(ft_strcmp(temp[0], "unset") == 0)
-    //     cmd_unset(split[0]);
-    else if(ft_strcmp(temp[0], "env") == 0)
+    else if(ft_strcmp(shell->temp[0], "export") == 0)
+        cmd_export(shell->temp, env, env_exp, 1);
+    else if(ft_strcmp(shell->temp[0], "unset") == 0)
+        cmd_unset(env, env_exp, shell->temp);
+    else if(ft_strcmp(shell->temp[0], "env") == 0)
             cmd_env(env);
-    // else if(ft_strcmp(temp[0], "exit") == 0)
-    //     cmd_exit(split[0]);
+    else if(ft_strcmp(shell->temp[0], "exit") == 0)
+        cmd_exit(shell, shell->temp);
     else
         return;
-    (void)env_exp;
 }
 
-int is_builtin(char *read)
+int is_builtin(t_shell *shell)
 {
     char **temp;
-    temp = ft_split(read , ' ');
     
+    temp = ft_split(shell->read , ' ');
+    shell->temp = temp;
     if(!temp[0])
         return(0);
     if(ft_strcmp(temp[0], "echo") == 0)
-        return(clear_array(temp), 1);
+        return(1);
     else if(ft_strcmp(temp[0], "cd") == 0)
-        return(clear_array(temp), 1);
+        return(1);
     else if(ft_strcmp(temp[0], "pwd") == 0)
-        return(clear_array(temp), 1);
+        return(1);
     else if(ft_strcmp(temp[0], "export") == 0)
-        return(clear_array(temp), 1);
+        return(1);
     else if(ft_strcmp(temp[0], "unset") == 0)
-        return(clear_array(temp), 1);
+        return(1);
     else if(ft_strcmp(temp[0], "env") == 0)
-        return(clear_array(temp), 1);
+        return(1);
     else if(ft_strcmp(temp[0], "exit") == 0)
-        return(clear_array(temp), 1);
+        return(1);
     else
-        return(clear_array(temp), 0);
+        return(0);
 }
 // ◦ export with no options
 // ◦ unset with no options

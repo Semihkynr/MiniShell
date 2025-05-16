@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:53:04 by skaynar           #+#    #+#             */
-/*   Updated: 2025/05/06 15:44:43 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/05/08 18:33:43 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,24 @@ int sizeof_array(char **av)
 	return(i);
 }
 
-char    **copy_env(char **env)
+char    **copy_array(char **array)
 {
     int     size;
     size = 0;
     int     i;
     i = 0;
-    char    **new_env;
+    char    **new_array;
 
-    while (env[size])
+    while (array[size])
         size++;
-    new_env = malloc(sizeof(char *) * (size + 1));
-    if (!new_env)
+    new_array = malloc(sizeof(char *) * (size + 1));
+    if (!new_array)
         return (NULL);
     while (i < size)
     {
-        new_env[i] = ft_strdup(env[i]);
+        new_array[i] = ft_strdup(array[i]);
         i++;
     }
-    new_env[i] = NULL;
-    return (new_env);
+    new_array[i] = NULL;
+    return (new_array);
 }

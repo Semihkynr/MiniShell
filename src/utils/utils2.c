@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 17:26:23 by skaynar           #+#    #+#             */
-/*   Updated: 2025/05/06 18:08:33 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/05/08 19:04:08 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,15 @@ void	swap_nodes(t_stack *a, t_stack *b)
 {
 	char	*tmp_var;
 	char	*tmp_value;
-
+	char 	tmp_equals;
+	char 	tmp_nail;
+	
+	tmp_equals = a->equals;
+	a->equals = b->equals;
+	b->equals = tmp_equals;
+	tmp_nail = a->nail;
+	a->nail = b->nail;
+	b->nail = tmp_nail;
 	tmp_var = a->var;
 	a->var = b->var;
 	b->var = tmp_var;

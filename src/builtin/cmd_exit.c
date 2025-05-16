@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cmd_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 14:54:19 by skaynar           #+#    #+#             */
-/*   Updated: 2025/05/16 22:52:51 by skaynar          ###   ########.fr       */
+/*   Created: 2025/05/12 12:53:52 by skaynar           #+#    #+#             */
+/*   Updated: 2025/05/12 13:35:42 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-int main(int ac , char **av , char **env)
+void cmd_exit(t_shell *shell, char **str)
 {
-    if (ac > 1)
-	{
-        printf("minishell: %s: No such file or directory\n", av[1]);
-		return (127);
-	}
-    t_shell *shell;
-    shell = ft_calloc(1 , sizeof(t_shell));
-    if(!shell)
-        exit(0);
-    shell_init(shell , env);
-    clear_array(shell->temp);
-    free(shell);
-    return(0);
+    if(sizeof_array(str) > 1)
+        printf("%s\n%s\n","exit" , "bash: exit: too many arguments");
+    else
+    {
+        
+        exit(shell->exit_status);
+    }
 }

@@ -1,6 +1,8 @@
 NAME = minishell
 
-SRCS =	./src/main.c ./src/startshell.c ./src/utils/utils.c ./src/utils/utils2.c ./src/utils/lstfnc.c ./src/builtin/builtin.c ./src/builtin/cmd_export_env.c 
+SRCS =	./src/main.c ./src/startshell.c ./src/utils/utils.c ./src/utils/utils2.c ./src/utils/lstfnc.c \
+		./src/builtin/builtin.c ./src/builtin/cmd_export_env.c ./src/builtin/cmd_unset.c  ./src/builtin/cmd_exit.c \
+		./src/exe/nopipe.c ./src/exe/pipe_utils.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:14:40 by skaynar           #+#    #+#             */
-/*   Updated: 2025/05/06 18:21:29 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/05/16 21:58:29 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,37 @@ void cmd_env(t_stack **env)
 	temp = *env;
 	while(temp)
 	{
-		printf("%s=%s\n", temp->var, temp->value);
+		printf("%s%c%s\n", temp->var, temp->equals, temp->value);
 		temp = temp->next;
 	}
+}
 
+int is_there_same(t_stack **env_exp, char **str)
+{
+    t_stack *fake;
+    fake = *env_exp;
+    while (fake)
+    {
+        if(ft_strcmp(fake->var, str[0]) == 0)
+        {
+            if(fake->value != 0 && str[1])
+                free(fake->value);
+            if(str[1] != 0)
+            {
+                fake->value = ft_strdup(str[1]);
+                fake->equals = '=';
+                fake->nail = '"';
+            }
+            return(1);
+        }
+        else
+        {
+            if(!fake->next)
+                return(0);
+            fake = fake->next;  
+        }
+    }
+    return(0);
 }
 
 int add_check(char *str)
@@ -41,24 +68,31 @@ int add_check(char *str)
 	}
 	return (clear_array(split), 0);
 }
-void add_export(t_stack **env_exp, char *temp)
+
+void add_export(t_stack **env_exp, t_stack **env, char *temp)
 {
     char **str;
     
     str = split_once(temp, 0);
-    if(str[1] && str[1][0] != '\0')
-		ft_lstadd_back(env_exp, ft_lstnew(ft_strdup(str[0]), ft_strdup(str[1])));
-	else
-    	ft_lstadd_back(env_exp, ft_lstnew(ft_strdup(str[0]), ""));
-	clear_array(str);
+
+    if(!is_there_same(env_exp, str))
+    {
+        if(str[1] && str[1][0] != '\0')
+            ft_lstadd_back(env_exp, ft_lstnew(ft_strdup(str[0]), ft_strdup(str[1])));
+        else
+            ft_lstadd_back(env_exp, ft_lstnew(ft_strdup(str[0]), ""));
+    }
+    if (str[1] && str[1][0] != '\0')
+    {
+        if(!is_there_same(env, str))
+            ft_lstadd_back(env, ft_lstnew(ft_strdup(str[0]), ft_strdup(str[1])));
+    }
+    clear_array(str);
     sort_env_list((*env_exp));
 }
 
-void cmd_export(char **temp, t_stack **env_exp)
+void cmd_export(char **temp, t_stack **env, t_stack **env_exp, int i)
 {
-    int i;
-    
-    i = 1;
     if(!temp[1])
     {
         sort_env_list((*env_exp));
@@ -66,7 +100,8 @@ void cmd_export(char **temp, t_stack **env_exp)
 	    temp = *env_exp;
 	    while(temp)
 	    {
-	    	printf("%s=\"%s\"\n", temp->var, temp->value);
+	    	printf("declare -x %s%c%c%s%c\n", temp->var, \
+                temp->equals,temp->nail,temp->value,temp->nail);
 	    	temp = temp->next;
         }
     }
@@ -77,9 +112,9 @@ void cmd_export(char **temp, t_stack **env_exp)
             if(add_check(temp[i]))
                 printf("bash: export: `%s': not a valid identifier\n" , temp[i]);
             else
-                add_export(env_exp, temp[i]);
+                add_export(env_exp, env, temp[i]);
             i++;
         }
     }
 }
-
+// a="" ve a='' fixlenmedi parstan gelcek diye bıraktım
