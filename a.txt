@@ -1,0 +1,13 @@
+total 92
+-rwxrwxr-x 1 skaynar skaynar     0 Haz 12 15:00 a.txt
+-rw-rw-r-- 1 skaynar skaynar     8 Haz 10 17:52 b.txt
+-rw-rw-r-- 1 skaynar skaynar    65 Haz  2 11:24 c.txt
+-rw-rw-r-- 1 skaynar skaynar     3 Haz  3 14:32 d.txt
+drwxrwxr-x 5 skaynar skaynar  4096 May 28 17:51 libft
+drwxrwxr-x 2 skaynar skaynar  4096 May 28 17:51 main
+-rw-rw-r-- 1 skaynar skaynar  1399 May 26 16:01 Makefile
+-rwxrwxr-x 1 skaynar skaynar 48040 Haz 10 18:29 minishell
+-rw-rw-r-- 1 skaynar skaynar  5068 Haz 10 18:04 minishell.h
+drwxrwxr-x 2 skaynar skaynar  4096 Haz 10 18:29 obj
+drwxrwxr-x 2 skaynar skaynar  4096 May 28 17:51 parse
+drwxrwxr-x 2 skaynar skaynar  4096 Haz  2 17:23 src

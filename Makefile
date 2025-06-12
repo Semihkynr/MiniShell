@@ -1,38 +1,62 @@
-NAME = minishell
+# Name and compiler
+NAME := minishell
+CC := cc
 
-SRCS =	./src/main.c ./src/startshell.c ./src/utils/utils.c ./src/utils/utils2.c ./src/utils/lstfnc.c \
-		./src/builtin/builtin.c ./src/builtin/cmd_export_env.c ./src/builtin/cmd_unset.c  ./src/builtin/cmd_exit.c \
-		./src/exe/nopipe.c ./src/exe/pipe_utils.c
+# Flags
+CFLAGS := -Wall -Wextra -Werror
+LDFLAGS := -lreadline
 
-OBJS = $(SRCS:.c=.o)
+# Directories
+MAIN_DIR := main
+SRC_DIR := src
+PARSE_DIR := parse
+LIBFT_DIR := libft
+OBJ_DIR := obj
 
-LIBFT = libft/libft.a
+# Source files
+MAIN_SRCS := $(MAIN_DIR)/main.c
+SRCS := $(shell find $(SRC_DIR) -name "*.c")
+PARSE_SRCS := $(shell find $(PARSE_DIR) -name "*.c")
+LIBFT_SRCS := $(shell find $(LIBFT_DIR)/core -name "*.c")
+ALL_SRCS := $(MAIN_SRCS) $(SRCS) $(PARSE_SRCS) $(LIBFT_SRCS)
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline 
+# Object files
+MAIN_OBJS := $(patsubst $(MAIN_DIR)/%.c, $(OBJ_DIR)/%.o, $(MAIN_SRCS))
+OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+PARSE_OBJS := $(patsubst $(PARSE_DIR)/%.c, $(OBJ_DIR)/%.o, $(PARSE_SRCS))
+LIBFT_OBJS := $(patsubst $(LIBFT_DIR)/core/%.c, $(OBJ_DIR)/%.o, $(LIBFT_SRCS))
+ALL_OBJS := $(MAIN_OBJS) $(OBJS) $(PARSE_OBJS) $(LIBFT_OBJS)
 
-CHECK_READLINE = dpkg -s libreadline-dev >/dev/null 2>&1 || sudo apt-get install -y libreadline-dev
+# Targets
+all: $(NAME)
 
-all: check_readline $(NAME)
+$(NAME): $(ALL_OBJS)
+	$(CC) $(CFLAGS) $(ALL_OBJS) $(LDFLAGS) -o $(NAME)
 
-$(NAME): $(OBJS)
-	make -C libft
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
-
-%.o: %.c
+# Compile rules
+$(OBJ_DIR)/%.o: $(MAIN_DIR)/%.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-check_readline:
-	@$(CHECK_READLINE)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJ_DIR)/%.o: $(PARSE_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/%.o: $(LIBFT_DIR)/core/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Cleaning
 clean:
-	rm -f $(OBJS)
-	make clean -C libft
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C libft
 
 re: fclean all
 
-.PHONY: all clean fclean re check_readline
+.PHONY: all clean fclean re
