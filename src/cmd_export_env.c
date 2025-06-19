@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:14:40 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/01 00:19:45 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:45:19 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,11 @@ void cmd_export(char **temp, t_stack **env, t_stack **env_exp, int i)
         while(temp[i])
         {
             if(add_check(temp[i]))
-                printf("bash: export: `%s': not a valid identifier\n" , temp[i]);
+            {
+                ft_putstr_fd("bash: export: '", 2);
+                ft_putstr_fd(temp[i], 2);
+                ft_putstr_fd("': not a valid identifier\n",2);
+            }
             else
                 add_export(env_exp, env, temp[i]);
             i++;

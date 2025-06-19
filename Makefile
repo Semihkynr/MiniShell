@@ -3,7 +3,7 @@ NAME := minishell
 CC := cc
 
 # Flags
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -g
 LDFLAGS := -lreadline
 
 # Directories

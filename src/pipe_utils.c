@@ -78,7 +78,7 @@ void	ft_execute(char **commands, char **ep)
 	if (!commands || !commands[0])
 	{
 		clear_array(commands);
-		exit(0);
+		exit(1);
 	}
 	path = ft_get_cmd(commands[0], ep);
 	if (execve(path, commands, ep) == -1)
@@ -86,6 +86,6 @@ void	ft_execute(char **commands, char **ep)
 		ft_putstr_fd(commands[0], 2);
 		ft_putendl_fd(": command not found", 2);
 		clear_array(commands);
-		exit(0);
+		exit(127);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:12:30 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/10 18:29:39 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:40:44 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,21 @@ void    cmd_cd(t_cmd *cmd)
 {
     struct stat info;
     if(sizeof_array(cmd->args) > 2)
-        printf("bash: cd: too many arguments\n");
+        ft_putstr_fd("bash: cd: too many arguments\n", 2);
     else if(sizeof_array(cmd->args) == 1 || ft_strncmp(cmd->args[1], "~", 1) == 0 )
         chdir(getenv("HOME"));
     else if (stat(cmd->args[1], &info) != 0)
-        printf("bash: cd: %s: No such file or directory\n", cmd->args[1]);
+    {
+        ft_putstr_fd("bash: cd: ", 2);
+        ft_putstr_fd(cmd->args[1], 2);
+        ft_putstr_fd(": No such file or directory\n",2);
+    }
     else if (!S_ISDIR(info.st_mode))
-        printf("bash: cd: %s: Not a directory\n", cmd->args[1]);
+    {
+        ft_putstr_fd("bash: cd: ", 2);
+        ft_putstr_fd(cmd->args[1], 2);
+        ft_putstr_fd(": Not a directory\n", 2);
+    }
     else
         chdir(cmd->args[1]);
 }

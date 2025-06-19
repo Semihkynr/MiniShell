@@ -6,18 +6,23 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:33:21 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/12 15:05:36 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:10:33 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_open(char *file, int val)
+int	ft_open(char *file, int val, bool i)
 {
     int	rtn;
     
 	if (val)
-        rtn = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+    {
+        if(i)
+            rtn = open(file, O_APPEND | O_CREAT | O_WRONLY, 0777);
+        else
+            rtn = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+    }
 	else
         rtn = open(file, O_RDONLY);
 	if (rtn < 0)
@@ -32,9 +37,11 @@ int	ft_open(char *file, int val)
 void take_outfile(t_cmd *fakecmd)
 {
     int i = 0;
+    int file_d;
+    
     while (fakecmd->outfile && fakecmd->outfile[i])
     {
-        int file_d = ft_open(fakecmd->outfile[i], 1);
+        file_d = ft_open(fakecmd->outfile[i], 1 , fakecmd->append[i]);
         dup2(file_d, 1);
         close(file_d);
         i++;
@@ -44,38 +51,15 @@ void take_outfile(t_cmd *fakecmd)
 void take_infile(t_cmd *fakecmd)
 {
     int i = 0;
+    int	file_d;
+    
     while(fakecmd->infile[i])
     {
-        int	file_d;
-
-        file_d = ft_open(fakecmd->infile[i], 0);
+        file_d = ft_open(fakecmd->infile[i], 0, 0);
         dup2(file_d, 0);
         close(file_d);	
         i++;
     }
-}
-void last_command(t_shell *shell, t_cmd *fakecmd, int *fd)
-{
-    take_infile(fakecmd);
-    dup2(fd[0], 0);       // stdin'i pipe'ın read ucuna yönlendir
-    close(fd[1]);         // write ucunu kapat (bu child için)
-    take_outfile(fakecmd);
-    if(is_valid_cmd(fakecmd->args[0]))
-        builtin(shell, fakecmd);
-    else
-        ft_execute(fakecmd->args, shell->main_env);
-}
-
-void much_command(t_shell *shell, t_cmd *fakecmd, int *fd)
-{    
-    take_infile(fakecmd);
-    dup2(fd[1], 1);
-    close(fd[0]); 
-    take_outfile(fakecmd); 
-    if(is_valid_cmd(fakecmd->args[0]))
-        builtin(shell, fakecmd);
-    else
-        ft_execute(fakecmd->args, shell->main_env);
 }
 
 void only_command(t_cmd *fakecmd, t_shell *shell)
@@ -89,43 +73,75 @@ void only_command(t_cmd *fakecmd, t_shell *shell)
     else
         cmd_cd(fakecmd);
 }
-
 void start_exe(t_shell *shell)
 {
-    int size;
-    t_cmd *fakecmd;
-    int fd[2];
+    t_cmd	*fakecmd;
+    int		prev_fd;
+    int		fd[2];
     pid_t	pid;
-    
+    int		status;
+    int size;
+
+    fakecmd = shell->cmd;
+    prev_fd = -1;
+
     size = sk_lstsize(shell->cmd);
     fakecmd = shell->cmd;
-
     if(size == 1 && ((ft_strcmp(fakecmd->args[0], "cd") == 0) 
         || (ft_strcmp(fakecmd->args[0], "export") == 0)
         || (ft_strcmp(fakecmd->args[0], "unset") == 0)))
         only_command(fakecmd, shell);
     else
     {
-        while (fakecmd)
+      while (fakecmd)
         {
-            if(pipe(fd) < 0)
-                printf("pipe hatasi\n");
+            if (fakecmd->next && pipe(fd) < 0)
+            {
+                perror("pipe");
+                exit(EXIT_FAILURE);
+            }
             pid = fork();
+            if (pid < 0)
+            {
+                perror("fork");
+                exit(EXIT_FAILURE);
+            }
             if (pid == 0)
             {
+                // child
+                take_infile(fakecmd);
+                if (prev_fd != -1)
+                {
+                    dup2(prev_fd, 0);   // önceki pipe'ın çıkışı -> stdin
+                    close(prev_fd);
+                }
                 if (fakecmd->next)
-                    much_command(shell, fakecmd, fd);
+                {
+                    close(fd[0]);
+                    dup2(fd[1], 1); // stdout -> yeni pipe'ın çıkışı
+                    close(fd[1]);
+                }
+                take_outfile(fakecmd);
+                if (is_valid_cmd(fakecmd->args[0]))
+                    builtin(shell, fakecmd);
                 else
-                    last_command(shell, fakecmd, fd);
+                    ft_execute(fakecmd->args, shell->main_env);
                 exit(EXIT_SUCCESS);
             }
             else
             {
+                // parent
+                if (prev_fd != -1)
+                    close(prev_fd);
                 if (fakecmd->next)
+                {
                     close(fd[1]);
-                waitpid(pid, NULL, 0);
-                fakecmd = fakecmd->next;
+                    prev_fd = fd[0];
+                }
+                waitpid(pid, &status, 0);
             }
+                fakecmd = fakecmd->next;
         }
-    }
+    }  
 }
+    
