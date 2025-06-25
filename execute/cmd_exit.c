@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   startshell.c                                       :+:      :+:    :+:   */
+/*   cmd_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 15:55:45 by skaynar           #+#    #+#             */
-/*   Updated: 2025/05/31 19:58:57 by skaynar          ###   ########.fr       */
+/*   Created: 2025/05/12 12:53:52 by skaynar           #+#    #+#             */
+/*   Updated: 2025/06/26 01:07:00 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void realenv(char **a)
+void cmd_exit(t_shell *shell, char **str)
 {
-    int i = 0;
-    while (a[i])
+    if(sizeof_array(str) > 2)
     {
-        printf("REALL -> %s\n",a[i]);
-        i++;
+        shell->exit_status = 0;
+        exit(shell->exit_status);
     }
-}
-void shell_init(t_shell *shell , char **enveiroment)
-{
-   
-    shell->main_env = enveiroment;
-    shell->exit_status = 0;
-	shell->env = malloc(sizeof(t_stack *));
-	shell->env_exp = malloc(sizeof(t_stack *));
-    shell->env = create_stack(shell->env, enveiroment);
-    shell->env_exp = create_stack(shell->env_exp, enveiroment);
+    else
+    {
+        shell->exit_status = ft_atoi(str[1]);
+        exit(shell->exit_status);
+    }
 }

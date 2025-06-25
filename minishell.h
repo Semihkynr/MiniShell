@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:34:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/10 18:04:31 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/26 01:01:23 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ typedef struct s_cmd
 	char			**infile;
 	char			**outfile;
 	bool			*append;
-	int 			out_count;
-	char			*heredoc_delim;
+	int 			out_count; // this can go when we have done printing cmds
+	char			**heredoc_delim;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -86,7 +86,9 @@ int		is_valid_word_token(const char *str);
 int		is_valid_cmd(const char *cmd);
 char	*strjoin_and_free(char *s1, char *s2);
 char	*extract_single_quote(char *input, int *i, int start, bool *quoted);
-char	*extract_expansion(char *input, int *i, int start);
+char	*extract_dollar(char *input, int *i, int start);
+char	*extract_tilde(char *input, int *i, int start);
+char	*dollar_expansion(char *input, int *i, int start);
 char	*extract_double_quote(char *input, int *i, int start, bool *quoted);
 char	*extract_double_inner(char *input, int *i, int start);
 char	*extract_word(char *input, int *i, int start);
@@ -120,6 +122,7 @@ typedef struct s_shell
     struct s_stack	**env_exp;
     struct s_cmd	*cmd;
 }              t_shell;
+
 typedef struct s_stack
 {
     char            *var;
@@ -130,7 +133,7 @@ typedef struct s_stack
 }					t_stack;
 
 void shell_init(t_shell *shell , char **env);
-void start_exe(t_shell *shell);
+void start_exe(t_shell *shell, int prev_fd);
 // builtin
 void builtin(t_shell *shell, t_cmd *cmd);
 int ft_n(char *str);
@@ -142,26 +145,21 @@ void cmd_exit(t_shell *shell, char **str);
 
 // komut çalıştırma 
 void	ft_execute(char **commands, char **ep);
-
-// //
-// char	*ft_get_cmd(char *cmd, char **ep);
-// char	*ft_get_path(char **ep);
-// int	ft_access(char *exec, char **opt, char **path);
-
+void ft_heredoc(t_cmd *fakecmd, int i, int fd);
 
 // ortak yardımcı
 void	clear_array(char **array);
-int sizeof_array(char **av);
-int	ft_strcmp(char *s1, char *s2);
+int		sizeof_array(char **av);
+int		ft_strcmp(char *s1, char *s2);
 void	sort_env_list(t_stack *head);
 void	swap_nodes(t_stack *a, t_stack *b);
-t_stack **create_stack(t_stack **list , char **enveironment);
+t_stack	**create_stack(t_stack **list , char **enveironment);
 t_stack	*sk_lstnew(char *var , char *value);
 void	sk_lstclear(t_stack **lst);
-int	sk_lstsize(t_cmd *lst);
+int		sk_lstsize(t_cmd *lst);
 void	sk_lstadd_back(t_stack **lst, t_stack *new);
 char	**split_once(const char *str, int i);
-int	ft_isname(int c);
+int		ft_isname(int c);
 char    **copy_array(char **env);
 
 #endif

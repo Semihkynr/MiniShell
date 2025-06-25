@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 22:03:32 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/05/19 22:06:38 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:49:20 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ t_token	*tokenize_word(char *input, int *i, bool *quoted)
 		else if (input[*i] == '"')
 			part = extract_double_quote(input, i, 0, quoted);
 		else if (input[*i] == '$')
-			part = extract_expansion(input, i, 0);
+			part = extract_dollar(input, i, 0);
+		else if (!joined && input[*i] == '~')
+			part = extract_tilde(input, i, 0);
 		else
 			part = extract_word(input, i, 0);
 		if (!part)

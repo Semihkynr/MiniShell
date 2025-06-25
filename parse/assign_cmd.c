@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:54:55 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/17 15:11:36 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/19 18:31:23 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ t_cmd	*ft_add_outfile(t_cmd *new, t_token **token, bool append)
 		return (NULL);
 	}
 	*token = (*token)->next;
-	if (access((*token)->value, F_OK) == 0 && access((*token)->value, W_OK) != 0)
+	if (access((*token)->value, F_OK) == 0
+		&& access((*token)->value, W_OK) != 0)
 	{
 		perror("Outfile is not writable");
 		return (NULL);
@@ -102,7 +103,7 @@ t_cmd	*ft_add_outfile(t_cmd *new, t_token **token, bool append)
 		printf("Outfile duplication failed\n");
 		return (NULL);
 	}
-	new->out_count++;
+	new->out_count++; // This line will go
 	new->append[i] = append;
 	return (new);
 }
@@ -110,16 +111,24 @@ t_cmd	*ft_add_outfile(t_cmd *new, t_token **token, bool append)
 // Adds next token->value to heredoc_delim
 t_cmd	*ft_add_heredoc(t_cmd *new, t_token **token)
 {
+	int	i;
+
+	i = 0;
+	while (new->heredoc_delim[i])
+		i++;
 	if (!(*token)->next)
 	{
 		printf("No delimiter after heredoc\n");
 		return (NULL);
 	}
-	if (new->heredoc_delim)
-		free(new->heredoc_delim);
+	if ((*token)->type == T_HEREDOC && (*token)->next->type != T_WORD)
+	{
+		perror("minishell: syntax error near unexpected token");
+		return (NULL);
+	}
 	*token = (*token)->next;
-	new->heredoc_delim = ft_strdup((*token)->value);
-	if (!new->heredoc_delim)
+	new->heredoc_delim[i] = ft_strdup((*token)->value);
+	if (!new->heredoc_delim[i])
 	{
 		printf("Heredoc delimiter duplication failed\n");
 		return (NULL);

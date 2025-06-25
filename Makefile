@@ -8,7 +8,7 @@ LDFLAGS := -lreadline
 
 # Directories
 MAIN_DIR := main
-SRC_DIR := src
+SRC_DIR := execute
 PARSE_DIR := parse
 LIBFT_DIR := libft
 OBJ_DIR := obj

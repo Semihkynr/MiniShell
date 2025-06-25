@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_exit.c                                         :+:      :+:    :+:   */
+/*   startshell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 12:53:52 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/17 17:37:35 by skaynar          ###   ########.fr       */
+/*   Created: 2025/04/29 15:55:45 by skaynar           #+#    #+#             */
+/*   Updated: 2025/06/26 00:39:10 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void cmd_exit(t_shell *shell, char **str)
+void shell_init(t_shell *shell , char **enveiroment)
 {
-    if(sizeof_array(str) > 2)
-    {
-        shell->exit_status = 0;
-        exit(shell->exit_status);
-    }
-    else
-    {
-        shell->exit_status = ft_atoi(str[1]);
-        exit(shell->exit_status);
-    }
+    shell->main_env = enveiroment;
+    shell->exit_status = 0;
+	shell->env = malloc(sizeof(t_stack *));
+	shell->env_exp = malloc(sizeof(t_stack *));
+    shell->env = create_stack(shell->env, enveiroment);
+    shell->env_exp = create_stack(shell->env_exp, enveiroment);
 }

@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:38:00 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/17 17:50:09 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/26 01:06:19 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **enveiroment)
 		if (!shell->read) // for ctrl + d (prints exit\n and quits)
 		{
 			printf("exit\n");
-			break ;
+			break;
 		}
 		if (!(*shell->read)) // for Enter (reads again)
 		{
@@ -47,8 +47,7 @@ int	main(int argc, char **argv, char **enveiroment)
 		head = parse(shell->read);
 		shell->cmd = head;
 		print_cmds(head);
-		// execute
-		start_exe(shell);
+		start_exe(shell, -1);
 		free(shell->read);
 	}
 	free(head);

@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 13:51:24 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/02 10:45:01 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/24 18:57:58 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	sk_lstclear(t_stack **lst)
 int	sk_lstsize(t_cmd *lst)
 {
 	int	counter;
-
 	counter = 0;
 	while (lst)
 	{

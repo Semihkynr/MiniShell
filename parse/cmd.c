@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:05:32 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/05 22:53:39 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/19 13:34:40 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+// Frees cmd/cmds
 void	free_cmd(t_cmd *head)
 {
 	t_cmd	*current;
@@ -28,7 +29,7 @@ void	free_cmd(t_cmd *head)
 		if (current->outfile)
 			free_double(current->outfile);
 		if (current->heredoc_delim)
-			free(current->heredoc_delim);
+			free_double(current->heredoc_delim);
 		if (current->args)
 			free_double(current->args);
 		free(current);
@@ -48,7 +49,9 @@ t_cmd	*init_cmd(void)
 	new->infile = ft_calloc(MAX_INPUT, sizeof(char *));
 	new->outfile = ft_calloc(MAX_INPUT, sizeof(char *));
 	new->append = ft_calloc(MAX_INPUT, sizeof(bool));
-	if (!(new->args) || !(new->infile) || !(new->outfile) || !(new->append))
+	new->heredoc_delim = ft_calloc(MAX_INPUT, sizeof(char *));
+	if (!(new->args) || !(new->infile) || !(new->outfile)
+		|| !(new->append) || !(new->heredoc_delim))
 		return (free_cmd(new), NULL);
 	return (new);
 }
@@ -113,7 +116,14 @@ void	print_cmds(t_cmd *cmd)
 			}
 		}
 		if (cmd->heredoc_delim)
-			printf("heredoc_delim: %s\n", cmd->heredoc_delim);
+		{
+			i = 0;
+			while (cmd->heredoc_delim[i])
+			{
+				printf("heredoc_delim[%d]: %s\n", i, cmd->heredoc_delim[i]);
+				i++;
+			}
+		}
 		printf("----\n");
 		cmd = cmd->next;
 	}
