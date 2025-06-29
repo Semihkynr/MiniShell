@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:33:21 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/26 01:01:12 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/30 00:11:28 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void only_command(t_cmd *fakecmd, t_shell *shell)
         cmd_unset(shell->env, shell->env_exp, fakecmd->args);
     else
         cmd_cd(fakecmd);
+
 }
 
 void ft_parent(t_cmd *fakecmd, int prev_fd, int *fd, pid_t pid)
@@ -121,7 +122,7 @@ void start_exe(t_shell *shell, int prev_fd)
     int		fd[2];
     pid_t	pid;
 
-    fakecmd = shell->cmd;
+    fakecmd = shell->cmd;    
     if(sk_lstsize(shell->cmd) == 1 && ((ft_strcmp(fakecmd->args[0], "cd") == 0) 
         || (ft_strcmp(fakecmd->args[0], "export") == 0)
         || (ft_strcmp(fakecmd->args[0], "unset") == 0)))

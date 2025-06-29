@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 22:03:32 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/20 13:49:20 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:59:37 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ t_token	*tokenize_operator(char *input, int *i)
 		(*i)++;
 	op = ft_substr(input, start, *i - start);
 	if (!op)
-	{
-		printf("tokenizer error: operator can not be extracted\n");
 		return (NULL);
-	}
 	return (assign_token(op, &quoted));
 }
 

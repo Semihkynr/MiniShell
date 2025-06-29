@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 22:22:02 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/05/31 14:11:43 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/26 20:04:22 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Checks if character is a space
+// Skips spaces until none space character
 void	skip_spaces(const char *input, int *i)
 {
 	while (input[*i] && ft_isspace(input[*i]))

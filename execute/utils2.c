@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 17:26:23 by skaynar           #+#    #+#             */
-/*   Updated: 2025/05/30 14:25:10 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/30 00:14:12 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	sort_env_list(t_stack *head)
 }
 
 
-t_stack **create_stack(t_stack **list , char **enveironment)
+void create_stack(t_stack **list , char **enveironment)
 {
 	char **arr;
 	int i;
@@ -67,7 +67,6 @@ t_stack **create_stack(t_stack **list , char **enveironment)
 	while(enveironment[i])
 	{
 		arr = split_once(enveironment[i] , 0);
-
 		if(arr[1] && arr[0])
 			sk_lstadd_back(list, sk_lstnew(ft_strdup(arr[0]), ft_strdup(arr[1])));
 		else
@@ -75,7 +74,7 @@ t_stack **create_stack(t_stack **list , char **enveironment)
 		clear_array(arr);
 		i++;
 	}
-	return(list);
+	return ;
 }
 
 char	**split_once(const char *str, int i)

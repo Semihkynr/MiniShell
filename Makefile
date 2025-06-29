@@ -1,61 +1,62 @@
-# Name and compiler
+# THIS FILE IS FOR MACOS PLEASE USE ANOTHER MAKEFILE IF UBUNTU
+
 NAME := minishell
+
 CC := cc
+CFLAGS := -Wall -Wextra -Werror
+CPPFLAGS := -Iincludes -I/opt/homebrew/opt/readline/include
+LDFLAGS := -L/opt/homebrew/opt/readline/lib -lreadline
+RM := rm -rf
 
-# Flags
-CFLAGS := -Wall -Wextra -Werror -g
-LDFLAGS := -lreadline
-
-# Directories
+# Directory structure
 MAIN_DIR := main
-SRC_DIR := execute
 PARSE_DIR := parse
-LIBFT_DIR := libft
+EXECUTE_DIR := execute
 OBJ_DIR := obj
+LIBFT := libft/libft.a
+LIBFT_OBJ := libft/obj
 
 # Source files
-MAIN_SRCS := $(MAIN_DIR)/main.c
-SRCS := $(shell find $(SRC_DIR) -name "*.c")
-PARSE_SRCS := $(shell find $(PARSE_DIR) -name "*.c")
-LIBFT_SRCS := $(shell find $(LIBFT_DIR)/core -name "*.c")
-ALL_SRCS := $(MAIN_SRCS) $(SRCS) $(PARSE_SRCS) $(LIBFT_SRCS)
+MAIN_SRCS := main.c
+PARSE_SRCS := parse.c token.c checks.c helpers.c lexer.c tokenizer.c extract.c helpers1.c cmd.c convert.c assign_cmd.c expansions.c
+EXECUTE_SRCS := cmd_exit.c lstfnc.c startshell.c cmd_export_env.c pipe_utils.c utils.c builtin.c cmd_unset.c start_exe.c utils2.c heredoc.c ft_free.c
+
+# Add directory prefixes
+MAIN_SRCS := $(addprefix $(MAIN_DIR)/, $(MAIN_SRCS))
+PARSE_SRCS := $(addprefix $(PARSE_DIR)/, $(PARSE_SRCS))
+EXECUTE_SRCS := $(addprefix $(EXECUTE_DIR)/, $(EXECUTE_SRCS))
+SRCS := $(MAIN_SRCS) $(PARSE_SRCS) $(EXECUTE_SRCS)
 
 # Object files
-MAIN_OBJS := $(patsubst $(MAIN_DIR)/%.c, $(OBJ_DIR)/%.o, $(MAIN_SRCS))
-OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
-PARSE_OBJS := $(patsubst $(PARSE_DIR)/%.c, $(OBJ_DIR)/%.o, $(PARSE_SRCS))
-LIBFT_OBJS := $(patsubst $(LIBFT_DIR)/core/%.c, $(OBJ_DIR)/%.o, $(LIBFT_SRCS))
-ALL_OBJS := $(MAIN_OBJS) $(OBJS) $(PARSE_OBJS) $(LIBFT_OBJS)
+OBJS := $(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
 
-# Targets
 all: $(NAME)
 
-$(NAME): $(ALL_OBJS)
-	$(CC) $(CFLAGS) $(ALL_OBJS) $(LDFLAGS) -o $(NAME)
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
-# Compile rules
 $(OBJ_DIR)/%.o: $(MAIN_DIR)/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(PARSE_DIR)/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(LIBFT_DIR)/core/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(EXECUTE_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
-# Cleaning
+$(LIBFT):
+	$(MAKE) -C libft
+
 clean:
-	rm -rf $(OBJ_DIR)
+	$(RM) $(OBJ_DIR)
+	$(RM) $(LIBFT_OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
+	$(RM) $(LIBFT)
 
 re: fclean all
 

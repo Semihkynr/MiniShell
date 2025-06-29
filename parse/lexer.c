@@ -6,11 +6,51 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 22:03:40 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/20 14:21:43 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/06/27 17:01:24 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	last_error_message(t_token *curr)
+{
+	if (curr->type == T_PIPE)
+		print_syntax_error("|", 2);
+	else if (curr->type == T_HEREDOC)
+		print_syntax_error("<<", 2);
+	else
+		print_syntax_error("newline", 2);
+}
+
+// Checks if the type order is correct
+static int	type_order_check(t_token *head)
+{
+	t_token	*curr;
+
+	if (!head)
+		return (1);
+	if (head->type != T_WORD && head->type != T_HEREDOC)
+	{
+		print_syntax_error(head->value, 2);
+		return (0);
+	}
+	curr = head;
+	while (curr && curr->next)
+	{
+		if (curr->type != T_WORD && curr->next->type != T_WORD)
+		{
+			print_syntax_error(curr->next->value, 2);
+			return (0);
+		}
+		curr = curr->next;
+	}
+	if (curr && curr->type != T_WORD)
+	{
+		last_error_message(curr);
+		return (0);
+	}
+	return (1);
+}
 
 // Gets tokens type based on the value
 static t_token_type	get_token_type(const char *str)
@@ -45,10 +85,12 @@ int	lexer(t_token *tokens)
 			temp->type = get_token_type(temp->value);
 		if (temp->type == T_UNKNOWN)
 		{
-			printf("syntax error near unexpected token `%s`\n", temp->value);
+			print_syntax_error(temp->value, 2);
 			return (0);
 		}
 		temp = temp->next;
 	}
+	if (!type_order_check(tokens))
+		return (0);
 	return (1);
 }

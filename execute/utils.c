@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:53:04 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/10 18:04:10 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/30 00:10:36 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ int	ft_strcmp(char *s1, char *s2)
 	unsigned int	i;
 
 	i = 0;
+	if(!s1)
+		return(999);
 	while (s1[i] && s1[i] == s2[i])
 		i++;
+	
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 

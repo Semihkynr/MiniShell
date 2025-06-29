@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:38:00 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/26 01:06:19 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/30 00:08:43 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	g_exit_status = 0;
 
 void	sigint_handler(int sig);
 
+
+
 int	main(int argc, char **argv, char **enveiroment)
 {
-	t_cmd	*head;
-
 	(void)argc;
 	(void)argv;
 	signal(SIGINT, sigint_handler); // for ctrl + c (prints newline)
@@ -44,13 +44,11 @@ int	main(int argc, char **argv, char **enveiroment)
 			continue ;
 		}
 		add_history(shell->read);
-		head = parse(shell->read);
-		shell->cmd = head;
-		print_cmds(head);
+		shell->cmd = parse(shell->read);
 		start_exe(shell, -1);
 		free(shell->read);
 	}
-	free(head);
+	free_all(shell);
 	return (0);
 }
 

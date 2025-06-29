@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:12:53 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/20 14:31:11 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:35:19 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*dollar_expansion(char *input, int *i, int start)
 	return (ft_strdup(value));
 }
 
-// Extract dollar expansions may need valid expansion checker
+// Extract dollar expansions
 char	*extract_dollar(char *input, int *i, int start)
 {
 	char	c;

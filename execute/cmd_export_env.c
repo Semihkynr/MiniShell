@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:14:40 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/17 17:45:19 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/30 00:13:59 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ void add_export(t_stack **env_exp, t_stack **env, char *temp)
 void cmd_export(char **temp, t_stack **env, t_stack **env_exp, int i)
 {
     if(!temp[1])
-    {
-        sort_env_list((*env_exp));
+    {  
         t_stack *temp;
+        sort_env_list((*env_exp));
 	    temp = *env_exp;
 	    while(temp)
 	    {
@@ -100,6 +100,7 @@ void cmd_export(char **temp, t_stack **env, t_stack **env_exp, int i)
                 temp->equals,temp->nail,temp->value,temp->nail);
 	    	temp = temp->next;
         }
+
     }
     else
     {

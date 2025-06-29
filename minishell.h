@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:34:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/26 01:01:23 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/06/30 00:20:35 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	print_cmds(t_cmd *cmd);
 int		ft_isspace(char c);
 int		ft_iseq(const char *a, const char *b);
 void	free_double(char **args);
+void	print_file_error(char *file_name);
+void	print_syntax_error(char *token, int mod);
 void	skip_spaces(const char *input, int *i);
 void	skip_until_chars(char *input, int *i, const char *delims);
 void	skip_until_specials(char *input, int *i);
@@ -112,6 +114,12 @@ t_cmd	*parse(char *input);
 #include <sys/stat.h> // stat
 #include <sys/wait.h>
 
+typedef struct s_memblock
+{
+	void				*data;
+	struct s_memblock	*next;
+}	t_memblock;
+
 typedef struct s_shell
 {
     char **temp;
@@ -130,6 +138,8 @@ typedef struct s_stack
     char             equals;
     char            nail;
 	struct s_stack	*next;
+	t_memblock	*perm_mem; 
+	t_memblock	*temp_mem;
 }					t_stack;
 
 void shell_init(t_shell *shell , char **env);
@@ -153,7 +163,7 @@ int		sizeof_array(char **av);
 int		ft_strcmp(char *s1, char *s2);
 void	sort_env_list(t_stack *head);
 void	swap_nodes(t_stack *a, t_stack *b);
-t_stack	**create_stack(t_stack **list , char **enveironment);
+void 	create_stack(t_stack **list , char **enveironment);
 t_stack	*sk_lstnew(char *var , char *value);
 void	sk_lstclear(t_stack **lst);
 int		sk_lstsize(t_cmd *lst);
@@ -161,6 +171,7 @@ void	sk_lstadd_back(t_stack **lst, t_stack *new);
 char	**split_once(const char *str, int i);
 int		ft_isname(int c);
 char    **copy_array(char **env);
+void 	free_all(t_shell *shell);
 
 #endif
 

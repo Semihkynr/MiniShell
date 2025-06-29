@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 22:23:24 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/20 13:49:48 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/06/26 21:32:47 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*extract_single_quote(char *input, int *i, int start, bool *quoted)
 		// Check if quote was closed
 		if (input[*i] != '\'')
 		{
-			printf("syntax error: unclosed quote\n");
+			print_syntax_error("single quote", 0);
 			free(joined);
 			return (NULL);
 		}
@@ -79,7 +79,7 @@ char	*extract_double_quote(char *input, int *i, int start, bool *quoted)
 			(*i)++;
 		else
 		{
-			printf("syntax error: unclosed double quote\n");
+			print_syntax_error("double quote", 1);
 			free(joined);
 			return (NULL);
 		}
@@ -87,7 +87,7 @@ char	*extract_double_quote(char *input, int *i, int start, bool *quoted)
 	return (joined);
 }
 
-// Extracts word add null check and appropiate error message
+// Extracts word
 char	*extract_word(char *input, int *i, int start)
 {
 	start = *i;

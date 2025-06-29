@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:54:55 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/19 18:31:23 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/06/26 21:16:58 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,10 @@ t_cmd	*ft_add_args(t_cmd *new, t_token *token)
 	while (new->args[i])
 		i++;
 	if (i >= MAX_INPUT - 1)
-	{
-		printf("Too many Arguments\n");
 		return (NULL);
-	}
 	new->args[i] = ft_strdup(token->value);
 	if (!(new->args[i]))
-	{
-		printf("Argument allocation failed\n");
 		return (NULL);
-	}
 	return (new);	
 }
 
@@ -41,10 +35,7 @@ t_cmd	*ft_add_cmd(t_cmd *new, t_token *token)
 	{
 		new->cmd = ft_strdup(token->value);
 		if (!new->cmd)
-		{
-			printf("Command duplication failed\n");
 			return (NULL);
-		}
 	}
 	return (ft_add_args(new, token));
 }
@@ -58,22 +49,16 @@ t_cmd	*ft_add_infile(t_cmd *new, t_token **token)
 	while (new->infile[i])
 		i++;
 	if (!(*token)->next)
-	{
-		printf("No infile after redirect in\n");
 		return (NULL);
-	}
 	*token = (*token)->next;
 	if (access((*token)->value, F_OK | R_OK) != 0)
 	{
-		perror("Invalid infile");
+		print_file_error((*token)->value);
 		return (NULL);
 	}
 	new->infile[i] = ft_strdup((*token)->value);
 	if (!new->infile[i])
-	{
-		printf("Infile duplication failed\n");
 		return (NULL);
-	}
 	return (new);
 }
 
@@ -86,23 +71,17 @@ t_cmd	*ft_add_outfile(t_cmd *new, t_token **token, bool append)
 	while (new->outfile[i])
 		i++;
 	if (!(*token)->next)
-	{
-		printf("No outfile after operator\n");
 		return (NULL);
-	}
 	*token = (*token)->next;
 	if (access((*token)->value, F_OK) == 0
 		&& access((*token)->value, W_OK) != 0)
 	{
-		perror("Outfile is not writable");
+		print_file_error((*token)->value);
 		return (NULL);
 	}
 	new->outfile[i] = ft_strdup((*token)->value);
 	if (!new->outfile[i])
-	{
-		printf("Outfile duplication failed\n");
 		return (NULL);
-	}
 	new->out_count++; // This line will go
 	new->append[i] = append;
 	return (new);
@@ -117,21 +96,10 @@ t_cmd	*ft_add_heredoc(t_cmd *new, t_token **token)
 	while (new->heredoc_delim[i])
 		i++;
 	if (!(*token)->next)
-	{
-		printf("No delimiter after heredoc\n");
 		return (NULL);
-	}
-	if ((*token)->type == T_HEREDOC && (*token)->next->type != T_WORD)
-	{
-		perror("minishell: syntax error near unexpected token");
-		return (NULL);
-	}
 	*token = (*token)->next;
 	new->heredoc_delim[i] = ft_strdup((*token)->value);
 	if (!new->heredoc_delim[i])
-	{
-		printf("Heredoc delimiter duplication failed\n");
 		return (NULL);
-	}
 	return (new);	
 }
