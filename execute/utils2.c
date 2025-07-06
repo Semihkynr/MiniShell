@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 17:26:23 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/30 00:14:12 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/07 00:32:39 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ void	sort_env_list(t_stack *head)
 	}
 }
 
-
-void create_stack(t_stack **list , char **enveironment)
+void create_stack(t_shell *shell , char **enveironment)
 {
 	char **arr;
 	int i;
@@ -68,9 +67,15 @@ void create_stack(t_stack **list , char **enveironment)
 	{
 		arr = split_once(enveironment[i] , 0);
 		if(arr[1] && arr[0])
-			sk_lstadd_back(list, sk_lstnew(ft_strdup(arr[0]), ft_strdup(arr[1])));
+		{
+			sk_lstadd_back(shell->env, sk_lstnew(ft_strdup(arr[0]), ft_strdup(arr[1])));
+			sk_lstadd_back(shell->env_exp, sk_lstnew(ft_strdup(arr[0]), ft_strdup(arr[1])));
+		}
 		else
-			sk_lstadd_back(list, sk_lstnew(ft_strdup(arr[0]), ""));
+		{
+			sk_lstadd_back(shell->env, sk_lstnew(ft_strdup(arr[0]), ""));
+			sk_lstadd_back(shell->env_exp, sk_lstnew(ft_strdup(arr[0]), ""));
+		}
 		clear_array(arr);
 		i++;
 	}

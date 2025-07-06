@@ -19,7 +19,7 @@ LIBFT_OBJ := libft/obj
 # Source files
 MAIN_SRCS := main.c
 PARSE_SRCS := parse.c token.c checks.c helpers.c lexer.c tokenizer.c extract.c helpers1.c cmd.c convert.c assign_cmd.c expansions.c
-EXECUTE_SRCS := cmd_exit.c lstfnc.c startshell.c cmd_export_env.c pipe_utils.c utils.c builtin.c cmd_unset.c start_exe.c utils2.c heredoc.c ft_free.c
+EXECUTE_SRCS := cmd_exit.c lstfnc.c startshell.c cmd_export_env.c pipe_utils.c utils.c builtin.c cmd_unset.c start_exe.c utils2.c heredoc.c free.c
 
 # Add directory prefixes
 MAIN_SRCS := $(addprefix $(MAIN_DIR)/, $(MAIN_SRCS))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 22:03:32 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/26 20:59:37 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/07/06 13:19:27 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_token	*tokenize_word(char *input, int *i, bool *quoted)
 			return (NULL);
 		}
 		joined = strjoin_and_free(joined, part);
+		if(part)
+			free(part);
 	}
 	return (assign_token(joined, quoted));
 }

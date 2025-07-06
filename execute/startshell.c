@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:55:45 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/30 00:14:27 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/07 00:30:56 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void shell_init(t_shell *shell , char **enveiroment)
 {
     shell->main_env = enveiroment;
     shell->exit_status = 0;
-	shell->env = malloc(sizeof(t_stack *));
+    shell->env = malloc(sizeof(t_stack *));
 	shell->env_exp = malloc(sizeof(t_stack *));
-    create_stack(shell->env, enveiroment);
-    create_stack(shell->env_exp, enveiroment);
+	*(shell->env_exp)= NULL; 
+	*(shell->env)= NULL; 
+	create_stack(shell,enveiroment);
 }

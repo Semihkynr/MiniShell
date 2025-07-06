@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:14:40 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/30 00:13:59 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/06 12:10:00 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ void cmd_export(char **temp, t_stack **env, t_stack **env_exp, int i)
     if(!temp[1])
     {  
         t_stack *temp;
+        printf("bura4\n");
         sort_env_list((*env_exp));
+        printf("bura\n");
 	    temp = *env_exp;
 	    while(temp)
 	    {
