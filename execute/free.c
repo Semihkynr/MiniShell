@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 12:33:47 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/07 00:52:38 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/07 18:06:37 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,5 @@ void free_shell(t_shell *shell)
     }
     if (shell->temp)
         clear_array(shell->temp);
-    if(shell->cmd)
-    {
-        free_cmd_list(shell->cmd);
-        free(shell->cmd);
-    }
-        
 }
 

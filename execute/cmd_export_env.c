@@ -18,7 +18,10 @@ void cmd_env(t_stack **env)
 	temp = *env;
 	while(temp)
 	{
-		printf("%s%c%s\n", temp->var, temp->equals, temp->value);
+		if (temp->value)
+			printf("%s%c%s\n", temp->var, temp->equals, temp->value);
+		else
+			printf("%s\n", temp->var);
 		temp = temp->next;
 	}
 }
@@ -73,7 +76,7 @@ void add_export(t_stack **env_exp, t_stack **env, char *temp)
             sk_lstadd_back(env_exp, sk_lstnew(ft_strdup(str[0]), ft_strdup(str[1])));
         else
         {
-            sk_lstadd_back(env_exp, sk_lstnew(ft_strdup(str[0]), "")); 
+            sk_lstadd_back(env_exp, sk_lstnew(ft_strdup(str[0]), NULL)); 
         }
     }
     if (!is_there_same(env, str))
@@ -81,7 +84,7 @@ void add_export(t_stack **env_exp, t_stack **env, char *temp)
         if(str[1] && str[1][0] != '\0')
             sk_lstadd_back(env, sk_lstnew(ft_strdup(str[0]), ft_strdup(str[1])));
         else
-            sk_lstadd_back(env, sk_lstnew(ft_strdup(str[0]), ""));
+            sk_lstadd_back(env, sk_lstnew(ft_strdup(str[0]), NULL));
     }
     clear_array(str);
     sort_env_list((*env_exp));
@@ -98,8 +101,11 @@ void cmd_export(char **temp, t_stack **env, t_stack **env_exp, int i)
 	    temp = *env_exp;
 	    while(temp)
 	    {
-	    	printf("declare -x %s%c%c%s%c\n", temp->var, \
-                temp->equals,temp->nail,temp->value,temp->nail);
+	    	if (temp->value)
+	    		printf("declare -x %s%c%c%s%c\n", temp->var, \
+	                temp->equals,temp->nail,temp->value,temp->nail);
+	        else
+	        	printf("declare -x %s\n", temp->var);
 	    	temp = temp->next;
         }
 

@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 17:26:23 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/07 00:32:39 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/07 18:19:26 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,16 @@ void create_stack(t_shell *shell , char **enveironment)
 	while(enveironment[i])
 	{
 		arr = split_once(enveironment[i] , 0);
-		if(arr[1] && arr[0])
+		if(arr[1] && arr[0] && arr[1][0] != '\0')
 		{
+			
 			sk_lstadd_back(shell->env, sk_lstnew(ft_strdup(arr[0]), ft_strdup(arr[1])));
 			sk_lstadd_back(shell->env_exp, sk_lstnew(ft_strdup(arr[0]), ft_strdup(arr[1])));
 		}
 		else
 		{
-			sk_lstadd_back(shell->env, sk_lstnew(ft_strdup(arr[0]), ""));
-			sk_lstadd_back(shell->env_exp, sk_lstnew(ft_strdup(arr[0]), ""));
+			sk_lstadd_back(shell->env, sk_lstnew(ft_strdup(arr[0]), NULL));
+			sk_lstadd_back(shell->env_exp, sk_lstnew(ft_strdup(arr[0]), NULL));
 		}
 		clear_array(arr);
 		i++;

@@ -20,20 +20,17 @@ t_stack	*sk_lstnew(char *var, char *value)
 	if (!node)
 		return (0);
 	node->var = var;
-	if (value)
+	if (value && value[0])
 	{
 		node->equals = '=';
 		node->nail = '"';
-		if (value[0])
-			node->value = value;
-		else
-			node->value = ft_strdup("");
+		node->value = value;
 	}
 	else
 	{
 		node->equals = 0;
 		node->nail = 0;
-		node->value = ft_strdup("");
+		node->value = NULL;
 	}
 	node->next = NULL;
 	return (node);

@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:38:00 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/07 01:01:24 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/07 18:05:29 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int	main(int argc, char **argv, char **enveiroment)
 		}
 		add_history(shell->read);
 		shell->cmd = parse(shell->read);
+		print_cmds(shell->cmd);
 		start_exe(shell, -1);
 		free(shell->read);
 		free_cmd_list(shell->cmd);
-		free(shell->cmd);
 	}
 	free_shell(shell);
 	free(shell);

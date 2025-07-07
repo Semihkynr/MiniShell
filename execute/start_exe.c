@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:33:21 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/30 00:11:28 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/07 17:48:23 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,27 +80,27 @@ void only_command(t_cmd *fakecmd, t_shell *shell)
 
 }
 
-void ft_parent(t_cmd *fakecmd, int prev_fd, int *fd, pid_t pid)
+void ft_parent(t_cmd *fakecmd, int *prev_fd, int *fd, pid_t pid)
 {
     int status;
     
-    if (prev_fd != -1)
-        close(prev_fd);
+    if (*prev_fd != -1)
+        close(*prev_fd);
     if (fakecmd->next)
     {
         close(fd[1]);
-        prev_fd = fd[0];
+        *prev_fd = fd[0];
     }
     waitpid(pid, &status, 0);
 }
 
-void ft_child(t_shell *shell, t_cmd *fakecmd, int prev_fd , int *fd)
+void ft_child(t_shell *shell, t_cmd *fakecmd, int *prev_fd , int *fd)
 {
     take_infile(fakecmd);
-    if (prev_fd != -1)
+    if (*prev_fd != -1)
     {
-        dup2(prev_fd, 0);   // önceki pipe'ın çıkışı -> stdin
-        close(prev_fd);
+        dup2(*prev_fd, 0);   // önceki pipe'ın çıkışı -> stdin
+        close(*prev_fd);
     }
     if (fakecmd->next)
     {
@@ -143,9 +143,9 @@ void start_exe(t_shell *shell, int prev_fd)
                 exit(EXIT_FAILURE);
             }
             if (pid == 0)
-                ft_child(shell,fakecmd,prev_fd,fd);
+                ft_child(shell,fakecmd,&prev_fd,fd);
             else
-                ft_parent(fakecmd,prev_fd,fd,pid);
+                ft_parent(fakecmd,&prev_fd,fd,pid);
             fakecmd = fakecmd->next;
         }
     }  
