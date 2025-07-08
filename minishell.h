@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:34:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/06 13:13:03 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:55:11 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void cmd_unset(t_stack **env, t_stack **env_exp, char **temp);
 void cmd_exit(t_shell *shell, char **str);
 
 // komut çalıştırma 
-void	ft_execute(char **commands, char **ep);
+void	ft_execute(char **commands, char **ep, t_shell *shell);
 void ft_heredoc(t_cmd *fakecmd, int i, int fd);
 
 // ortak yardımcı

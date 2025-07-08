@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:38:00 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/07 18:05:29 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:51:59 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int argc, char **argv, char **enveiroment)
 	signal(SIGINT, sigint_handler); // for ctrl + c (prints newline)
 	signal(SIGQUIT, SIG_IGN); // for ctrl + / (does nothing)
 	t_shell *shell;
-	// int a = 0;
     shell = ft_calloc(1 , sizeof(t_shell));
     if(!shell)
 		exit(0);
@@ -47,6 +46,7 @@ int	main(int argc, char **argv, char **enveiroment)
 		start_exe(shell, -1);
 		free(shell->read);
 		free_cmd_list(shell->cmd);
+		// free_cmd(shell->cmd);
 	}
 	free_shell(shell);
 	free(shell);

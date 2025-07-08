@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:33:21 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/07 17:48:23 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:54:03 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,10 @@ void ft_child(t_shell *shell, t_cmd *fakecmd, int *prev_fd , int *fd)
     if (is_valid_cmd(fakecmd->args[0]))
         builtin(shell, fakecmd);
     else
-        ft_execute(fakecmd->args, shell->main_env);
+        ft_execute(fakecmd->args, shell->main_env, shell);
+    free_cmd_list(shell->cmd);
+    free_shell(shell);
+    free(shell);
     exit(EXIT_SUCCESS);
 }
 
