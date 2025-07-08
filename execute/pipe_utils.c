@@ -85,10 +85,8 @@ void	ft_execute(char **commands, char **ep, t_shell *shell)
 	{
 		ft_putstr_fd(commands[0], 2);
 		ft_putendl_fd(": command not found", 2);
-		clear_array(commands);
 	    free_cmd_list(shell->cmd);
 		free_shell(shell);
-		free(shell);
 		exit(127);
 	}
 }

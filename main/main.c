@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:38:00 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/08 17:51:59 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/08 19:53:12 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(int argc, char **argv, char **enveiroment)
 		if (!shell->read) // for ctrl + d (prints exit\n and quits)
 		{
 			printf("exit\n");
+			g_exit_status = 131;
 			break;
 		}
 		if (!(*shell->read)) // for Enter (reads again)
@@ -42,15 +43,12 @@ int	main(int argc, char **argv, char **enveiroment)
 		}
 		add_history(shell->read);
 		shell->cmd = parse(shell->read);
-		print_cmds(shell->cmd);
 		start_exe(shell, -1);
 		free(shell->read);
 		free_cmd_list(shell->cmd);
-		// free_cmd(shell->cmd);
 	}
 	free_shell(shell);
-	free(shell);
-	return (0);
+	return (g_exit_status);
 }
 
 void	sigint_handler(int sig)

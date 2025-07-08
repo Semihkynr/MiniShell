@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 12:33:47 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/07 18:06:37 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/08 19:53:23 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ void free_shell(t_shell *shell)
     }
     if (shell->temp)
         clear_array(shell->temp);
+    free(shell);
 }
 
