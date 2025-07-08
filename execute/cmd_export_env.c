@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:14:40 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/06 12:10:00 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/09 00:49:26 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,16 @@ void add_export(t_stack **env_exp, t_stack **env, char *temp)
     char **str;
     
     str = split_once(temp, 0);
-
     if(!is_there_same(env_exp, str))
     {
-        if(str[1] && str[1][0] != 0)
+        if(str[1])
             sk_lstadd_back(env_exp, sk_lstnew(ft_strdup(str[0]), ft_strdup(str[1])));
         else
-        {
             sk_lstadd_back(env_exp, sk_lstnew(ft_strdup(str[0]), NULL)); 
-        }
     }
     if (!is_there_same(env, str))
     {
-        if(str[1] && str[1][0] != '\0')
+        if(str[1])
             sk_lstadd_back(env, sk_lstnew(ft_strdup(str[0]), ft_strdup(str[1])));
         else
             sk_lstadd_back(env, sk_lstnew(ft_strdup(str[0]), NULL));
@@ -94,21 +91,18 @@ void cmd_export(char **temp, t_stack **env, t_stack **env_exp, int i)
 {
     if(!temp[1])
     {  
-        t_stack *temp;
-        printf("bura4\n");
+        t_stack *tmp;
         sort_env_list((*env_exp));
-        printf("bura\n");
-	    temp = *env_exp;
-	    while(temp)
+	    tmp = *env_exp;
+	    while(tmp)
 	    {
-	    	if (temp->value)
-	    		printf("declare -x %s%c%c%s%c\n", temp->var, \
-	                temp->equals,temp->nail,temp->value,temp->nail);
+	    	if (tmp->value)
+	    		printf("declare -x %s%c%c%s%c\n", tmp->var, \
+	                tmp->equals,tmp->nail,tmp->value,tmp->nail);
 	        else
-	        	printf("declare -x %s\n", temp->var);
-	    	temp = temp->next;
+	        	printf("declare -x %s\n", tmp->var);
+	    	tmp = tmp->next;
         }
-
     }
     else
     {

@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 13:51:24 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/06 12:28:52 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/09 00:44:52 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_stack	*sk_lstnew(char *var, char *value)
 	if (!node)
 		return (0);
 	node->var = var;
-	if (value && value[0])
+	if (value)
 	{
 		node->equals = '=';
 		node->nail = '"';
