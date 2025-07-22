@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:40:24 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/05/19 22:17:35 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/07/22 12:42:02 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,4 @@ t_token	*assign_token(char *value, bool *quoted)
 	new->value = value;
 	new->quoted = (*quoted);
 	return (new);
-}
-
-// Prints tokens for debugging
-void	print_tokens(t_token *tokens)
-{
-	while (tokens)
-	{
-		printf("TOKEN: %-10s  TYPE: %d\n", tokens->value, tokens->type);
-		tokens = tokens->next;
-	}
 }

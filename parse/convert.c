@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:59:48 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/05/19 22:31:23 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/07/19 21:24:52 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 t_cmd	*convert_inner(t_token **token)
 {
 	t_cmd	*new;
+	t_cmd	*temp;
 
 	new = init_cmd();
 	if (!new)
@@ -23,19 +24,19 @@ t_cmd	*convert_inner(t_token **token)
 	while (*token && (*token)->type != T_PIPE)
 	{
 		if ((*token)->type == T_WORD && is_valid_cmd((*token)->value))
-			new = ft_add_cmd(new, *token);
+			temp = ft_add_cmd(new, *token);
 		else if ((*token)->type == T_WORD)
-			new = ft_add_args(new, *token);
+			temp = ft_add_args(new, *token);
 		else if ((*token)->type == T_REDIRECT_IN)
-			new = ft_add_infile(new, token);
+			temp = ft_add_infile(new, token);
 		else if ((*token)->type == T_REDIRECT_OUT)
-			new = ft_add_outfile(new, token, false);
+			temp = ft_add_outfile(new, token, false);
 		else if ((*token)->type == T_APPEND)
-			new = ft_add_outfile(new, token, true);
+			temp = ft_add_outfile(new, token, true);
 		else if ((*token)->type == T_HEREDOC)
-			new = ft_add_heredoc(new, token);
-		if (!new)
-			return (NULL);
+			temp = ft_add_heredoc(new, token);
+		if (!temp)
+			return (free_cmd(new), NULL);
 		(*token) = (*token)->next;
 	}
 	return (new);

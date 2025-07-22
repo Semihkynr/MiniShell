@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:05:32 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/07 00:51:49 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/19 16:15:29 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 // Frees cmd/cmds
 void	free_cmd(t_cmd *head)
 {
-	t_cmd	*current;
 	t_cmd	*tmp;
 
-	current = head;
-	while (current)
+	while (head)
 	{
-		tmp = current->next;
-		if (current->cmd)
-			free(current->cmd);
-		if (current->infile)
-			free_double(current->infile);
-		if (current->outfile)
-			free_double(current->outfile);
-		if (current->heredoc_delim)
-			free_double(current->heredoc_delim);
-		if (current->args)
-			free_double(current->args);
-		free(current);
-		current = tmp;
+		tmp = head->next;
+		if (head->cmd)
+			free(head->cmd);
+		if (head->infile)
+			free_double(head->infile);
+		if (head->outfile)
+			free_double(head->outfile);
+		if (head->heredoc_delim)
+			free_double(head->heredoc_delim);
+		if (head->args)
+			free_double(head->args);
+		if (head->append)
+			free(head->append);
+		free(head);
+		head = tmp;
 	}
 }
 
@@ -67,64 +67,4 @@ void	add_cmd(t_cmd *head, t_cmd *new)
 	while (prev->next)
 		prev = prev->next;
 	prev->next = new;
-}
-
-// Prints cmds for debugging
-void	print_cmds(t_cmd *cmd)
-{
-	int	i;
-
-	while (cmd)
-	{
-		printf("----\n");
-		if (cmd->cmd)
-			printf("cmd: %s\n", cmd->cmd);
-		if (cmd->args)
-		{
-			i = 0;
-			while (cmd->args[i])
-			{
-				printf("arg[%d]: %s\n", i, cmd->args[i]);
-				i++;
-			}
-		}
-		if (cmd->infile)
-		{
-			i = 0;
-			while (cmd->infile[i])
-			{
-				printf("infile[%d]: %s\n", i, cmd->infile[i]);
-				i++;
-			}
-		}
-		if (cmd->outfile)
-		{
-			i = 0;
-			while (cmd->outfile[i])
-			{
-				printf("outfile[%d]: %s\n", i, cmd->outfile[i]);
-				i++;
-			}
-		}
-		if (cmd->append)
-		{
-			i = 0;
-			while (i < cmd->out_count)
-			{
-				printf("append[%d]: %d\n", i, cmd->append[i]);
-				i++;
-			}
-		}
-		if (cmd->heredoc_delim)
-		{
-			i = 0;
-			while (cmd->heredoc_delim[i])
-			{
-				printf("heredoc_delim[%d]: %s\n", i, cmd->heredoc_delim[i]);
-				i++;
-			}
-		}
-		printf("----\n");
-		cmd = cmd->next;
-	}
 }

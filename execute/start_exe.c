@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:33:21 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/08 19:53:37 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/22 13:45:32 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,22 @@ void take_infile(t_cmd *fakecmd)
 
 void only_command(t_cmd *fakecmd, t_shell *shell)
 {
-    take_infile(fakecmd);
-    take_outfile(fakecmd);
-    if((ft_strcmp(fakecmd->cmd, "export") == 0))
-        cmd_export(fakecmd->args, shell->env, shell->env_exp, 1);
-    else if ((ft_strcmp(fakecmd->cmd, "unset") == 0))
-        cmd_unset(shell->env, shell->env_exp, fakecmd->args);
-    else
-        cmd_cd(fakecmd);
+    int saved_stdout = dup(1); // stdout'u yedekle
+    int saved_stdin = dup(0);  // stdin'i yedekle
 
+    take_infile(fakecmd);      // stdin yönlendir
+    take_outfile(fakecmd);     // stdout yönlendir
+    builtin(shell, fakecmd);   // komutu çalıştır
+    if (fakecmd->outfile)
+    {
+        dup2(saved_stdout, 1);
+        close(saved_stdout);
+    }
+    if (fakecmd->infile || (fakecmd->heredoc_delim && fakecmd->heredoc_delim[0]))
+    {
+        dup2(saved_stdin, 0);
+        close(saved_stdin);
+    }
 }
 
 void ft_parent(t_cmd *fakecmd, int *prev_fd, int *fd, pid_t pid)
@@ -125,9 +132,7 @@ void start_exe(t_shell *shell, int prev_fd)
     pid_t	pid;
 
     fakecmd = shell->cmd;    
-    if(sk_lstsize(shell->cmd) == 1 && ((ft_strcmp(fakecmd->args[0], "cd") == 0) 
-        || (ft_strcmp(fakecmd->args[0], "export") == 0)
-        || (ft_strcmp(fakecmd->args[0], "unset") == 0)))
+    if(sk_lstsize(shell->cmd) == 1 && is_valid_cmd(fakecmd->args[0]))
         only_command(fakecmd, shell);
     else
     {

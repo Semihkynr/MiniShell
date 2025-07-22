@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:12:53 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/20 14:35:19 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/07/20 14:32:01 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*extract_dollar(char *input, int *i, int start)
 		return ((*i)++, ft_itoa(g_exit_status));
 	if (c == '#')
 		return ((*i)++, ft_strdup("0"));
-	if (ft_isalnum(c) && c != '_')
+	if (!ft_isalnum(c) && c != '_')
 		return ((*i)++, ft_strdup(""));
 	return (dollar_expansion(input, i, start));
 }

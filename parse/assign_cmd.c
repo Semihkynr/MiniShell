@@ -6,7 +6,7 @@
 /*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:54:55 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/06/26 21:16:58 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:04:27 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ t_cmd	*ft_add_outfile(t_cmd *new, t_token **token, bool append)
 	new->outfile[i] = ft_strdup((*token)->value);
 	if (!new->outfile[i])
 		return (NULL);
-	new->out_count++; // This line will go
 	new->append[i] = append;
 	return (new);
 }

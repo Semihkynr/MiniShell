@@ -76,10 +76,7 @@ void	ft_execute(char **commands, char **ep, t_shell *shell)
 	char	*path;
 
 	if (!commands || !commands[0])
-	{
-		clear_array(commands);
-		exit(1);
-	}
+		return;
 	path = ft_get_cmd(commands[0], ep);
 	if (execve(path, commands, ep) == -1)
 	{

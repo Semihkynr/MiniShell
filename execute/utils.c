@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:53:04 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/06 12:49:26 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/22 12:51:30 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ int ft_n(char *str)
 {
 	int i;
 	i = 2;
-	
-	if(str[0] != '-' && str[1] != 'n')
+	if(!str || !str[0])
+		return(1);
+	if(str[0] != '-' || str[1] != 'n')
 		return(1);
 	while(str[i])
 	{

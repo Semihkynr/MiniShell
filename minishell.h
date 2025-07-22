@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:34:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/08 17:55:11 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/19 16:05:04 by yesoytur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_cmd
 	char			**infile;
 	char			**outfile;
 	bool			*append;
-	int 			out_count; // this can go when we have done printing cmds
 	char			**heredoc_delim;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -64,14 +63,12 @@ t_token	*init_token(void);
 void	free_token(t_token *head);
 void	add_token(t_token *head, t_token *new);
 t_token	*assign_token(char *value, bool *quoted);
-void	print_tokens(t_token *head);
 
 // cmd functions
 
 void	free_cmd(t_cmd *head);
 t_cmd	*init_cmd(void);
 void	add_cmd(t_cmd *head, t_cmd *new);
-void	print_cmds(t_cmd *cmd);
 
 // parse functions
 
@@ -168,8 +165,3 @@ void	sk_lstclear(t_stack **lst);
 void free_cmd_list(t_cmd *cmd);
 
 #endif
-
-// extractor functions will be divided
-// skip functions may need some clenup
-// double quote function needs some improvements
-// when all of this is done tokenize_oprator() is needed

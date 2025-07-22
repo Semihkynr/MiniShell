@@ -1,11 +1,11 @@
-# THIS FILE IS FOR LINUX (UBUNTU)
+# THIS FILE IS FOR MACOS PLEASE USE ANOTHER MAKEFILE IF UBUNTU
 
 NAME := minishell
 
 CC := cc
 CFLAGS := -Wall -Wextra -Werror
-CPPFLAGS := -Iincludes -I/usr/include/readline
-LDFLAGS := -L/usr/lib -lreadline
+CPPFLAGS := -Iincludes -I/opt/homebrew/opt/readline/include
+LDFLAGS := -L/opt/homebrew/opt/readline/lib -lreadline
 RM := rm -rf
 
 # Directory structure
@@ -19,7 +19,7 @@ LIBFT_OBJ := libft/obj
 # Source files
 MAIN_SRCS := main.c
 PARSE_SRCS := parse.c token.c checks.c helpers.c lexer.c tokenizer.c extract.c helpers1.c cmd.c convert.c assign_cmd.c expansions.c
-EXECUTE_SRCS := cmd_exit.c lstfnc.c startshell.c cmd_export_env.c pipe_utils.c utils.c builtin.c cmd_unset.c start_exe.c utils2.c heredoc.c free.c
+EXECUTE_SRCS := cmd_exit.c lstfnc.c startshell.c cmd_export_env.c pipe_utils.c utils.c builtin.c cmd_unset.c start_exe.c utils2.c heredoc.c
 
 # Add directory prefixes
 MAIN_SRCS := $(addprefix $(MAIN_DIR)/, $(MAIN_SRCS))
@@ -60,9 +60,4 @@ fclean: clean
 
 re: fclean all
 
-# Valgrind rule that logs entire interactive session to a file
-valgrind:
-	@echo "Minishell initializing on valgrind mode..."
-	script -q -c "valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --track-origins=yes ./minishell" valgrind_log.txt
-
-.PHONY: all clean fclean re valgrind
+.PHONY: all clean fclean re
