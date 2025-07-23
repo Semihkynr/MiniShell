@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:34:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/19 16:05:04 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:03:08 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,6 @@ void    cmd_cd(t_cmd *cmd);
 void cmd_env(t_stack **env);
 void cmd_export(char **temp, t_stack **env, t_stack **env_exp, int i);
 void cmd_unset(t_stack **env, t_stack **env_exp, char **temp);
-void cmd_exit(t_shell *shell, char **str);
-
 // komut çalıştırma 
 void	ft_execute(char **commands, char **ep, t_shell *shell);
 void ft_heredoc(t_cmd *fakecmd, int i, int fd);
@@ -163,5 +161,10 @@ void free_shell(t_shell *shell);
 void	clear_array(char **array);
 void	sk_lstclear(t_stack **lst);
 void free_cmd_list(t_cmd *cmd);
+int	ft_exit(t_shell *shell);
+void	exit_helper(t_cmd *cmd, int *exit_code);
+int	is_numeric(char *str);
+void	set_exit_status_code(int status);
+int	*get_exit_status_code(void);
 
 #endif

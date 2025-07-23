@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:12:30 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/22 12:29:28 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/23 18:02:57 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void    cmd_cd(t_cmd *cmd)
 {
     struct stat info;
     if(sizeof_array(cmd->args) > 2)
+    {
         ft_putstr_fd("bash: cd: too many arguments\n", 2);
+	    set_exit_status_code(1);
+    }
     else if(sizeof_array(cmd->args) == 1 || ft_strncmp(cmd->args[1], "~", 1) == 0 )
         chdir(getenv("HOME"));
     else if (stat(cmd->args[1], &info) != 0)
@@ -83,7 +86,7 @@ void builtin(t_shell *shell, t_cmd *cmd)
     else if(ft_strcmp(cmd->cmd, "env") == 0)
             cmd_env(shell->env);
     else if(ft_strcmp(cmd->cmd, "exit") == 0)
-        cmd_exit(shell, cmd->args);
+        ft_exit(shell);
     else
         return;
 }

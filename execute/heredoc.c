@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:45:09 by skaynar           #+#    #+#             */
-/*   Updated: 2025/06/26 01:04:16 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/23 17:59:11 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ void ft_heredoc(t_cmd *fakecmd, int i, int fd)
     }
     fd = open("garbage", O_RDONLY);
     dup2(fd, 0);
-    unlink("garbage");
     close(fd);
+    unlink("garbage");
 }
