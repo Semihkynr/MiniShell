@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:14:40 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/09 00:49:26 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/23 13:30:09 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ void add_export(t_stack **env_exp, t_stack **env, char *temp)
     {
         if(str[1])
             sk_lstadd_back(env, sk_lstnew(ft_strdup(str[0]), ft_strdup(str[1])));
-        else
-            sk_lstadd_back(env, sk_lstnew(ft_strdup(str[0]), NULL));
     }
     clear_array(str);
     sort_env_list((*env_exp));

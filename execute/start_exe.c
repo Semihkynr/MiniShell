@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:33:21 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/22 13:45:32 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/07/23 13:29:39 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,5 +155,5 @@ void start_exe(t_shell *shell, int prev_fd)
                 ft_parent(fakecmd,&prev_fd,fd,pid);
             fakecmd = fakecmd->next;
         }
-    }  
+    }
 }
