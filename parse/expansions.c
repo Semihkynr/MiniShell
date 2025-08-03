@@ -3,41 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:12:53 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/20 14:32:01 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/08/03 19:29:23 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // Extract dollars inner part 
-char	*dollar_expansion(char *input, int *i, int start)
+char	*dollar_expansion(t_shell *shell , int *i, int start)
 {
 	char	*name;
 	char	*value;
 
 	start = *i;
-	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
+	while (shell->read[*i] && (ft_isalnum(shell->read[*i]) || shell->read[*i] == '_'))
 		(*i)++;
-	name = ft_substr(input, start, *i - start);
-	value = getenv(name);
+	name = ft_substr(shell->read, start, *i - start);
+	value = find_value(shell->env, name); // env gelcek
 	free(name);
 	if (!value)
-		return (ft_strdup(""));
+		return (ft_substr(shell->read, start, *i - start));
 	return (ft_strdup(value));
 }
 
 // Extract dollar expansions
-char	*extract_dollar(char *input, int *i, int start)
+char	*extract_dollar(t_shell *shell, int *i, int start)
 {
 	char	c;
 
 	(*i)++;
-	if (!input[*i])
+	if (!shell->read[*i])
 		return (ft_strdup("$"));
-	c = input[*i];
+	c = shell->read[*i];
 	if (c == '0')
 		return ((*i)++, ft_strdup("bash"));
 	if (c == '-')
@@ -48,29 +48,29 @@ char	*extract_dollar(char *input, int *i, int start)
 		return ((*i)++, ft_strdup("0"));
 	if (!ft_isalnum(c) && c != '_')
 		return ((*i)++, ft_strdup(""));
-	return (dollar_expansion(input, i, start));
+	return (dollar_expansion(shell, i, start));
 }
 
 // Extract tilde expansions
-char	*extract_tilde(char *input, int *i, int start)
+char	*extract_tilde(t_shell *shell, int *i, int start)
 {
 	char	*path;
 	char	*home;
 	
-	home = getenv("HOME");
+	home = find_value(shell->env, "HOME"); // env gelcek
 	if (!home)
 		return (ft_strdup("~"));
 	(*i)++;
-	if (!input[(*i)]) // ~
+	if (!shell->read[(*i)]) // ~
 		return (ft_strdup(home));
-	else if (input[*i] != '/') // ~somegibberish
+	else if (shell->read[*i] != '/') // ~somegibberish
 		return (ft_strdup("~"));
 	else // ~/somegibberish
 	{
 		start = (*i);
-		while (input[*i])
+		while (shell->read[*i])
 			(*i)++;
-		path = ft_substr(input, start, *i - start);
+		path = ft_substr(shell->read, start, *i - start);
 		return (strjoin_and_free(ft_strdup(home), path));
 	}
 }

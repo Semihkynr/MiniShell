@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 22:39:38 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/03 18:55:14 by skaynar          ###   ########.fr       */
+/*   Created: 2025/08/03 18:23:05 by skaynar           #+#    #+#             */
+/*   Updated: 2025/08/03 18:32:54 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Parent Process for parsing
-t_cmd	*parse(t_shell *shell)
+char	*find_value(t_stack **stack, char *name)
 {
-	t_token	*token_head;
-	t_cmd	*cmd_head;
-
-	token_head = tokenizer(shell);
-	if (!token_head)
-		return (NULL);
-	if (!lexer(token_head))
+    t_stack *fake;
+    
+    fake = *stack;
+	while (fake)
 	{
-		free_token(token_head);
-		return (NULL);
+		if (fake->var && name && ft_strcmp(fake->var, name) == 0)
+			return (fake->value);
+		fake = fake->next;
 	}
-	cmd_head = converter(token_head);
-	free_token(token_head);
-	if (!cmd_head)
-		return (NULL);
-	return (cmd_head);
+	return (NULL);
 }

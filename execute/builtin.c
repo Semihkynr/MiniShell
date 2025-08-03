@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:12:30 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/23 18:02:57 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/03 19:12:42 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void cmd_pwd()
     free(pwd);
 }
 
-void    cmd_cd(t_cmd *cmd)
+void    cmd_cd(t_cmd *cmd, t_shell *shell)
 {
     struct stat info;
     if(sizeof_array(cmd->args) > 2)
@@ -29,7 +29,7 @@ void    cmd_cd(t_cmd *cmd)
 	    set_exit_status_code(1);
     }
     else if(sizeof_array(cmd->args) == 1 || ft_strncmp(cmd->args[1], "~", 1) == 0 )
-        chdir(getenv("HOME"));
+        chdir(find_value(shell->env,"HOME")); // env gelcek
     else if (stat(cmd->args[1], &info) != 0)
     {
         ft_putstr_fd("bash: cd: ", 2);
@@ -76,7 +76,7 @@ void builtin(t_shell *shell, t_cmd *cmd)
     if(ft_strcmp(cmd->cmd, "echo") == 0)
         cmd_echo(cmd->args);
     else if(ft_strcmp(cmd->cmd, "cd") == 0)
-        cmd_cd(cmd);
+        cmd_cd(cmd,shell);
     else if(ft_strcmp(cmd->cmd, "pwd") == 0)
         cmd_pwd();
     else if(ft_strcmp(cmd->cmd, "export") == 0)

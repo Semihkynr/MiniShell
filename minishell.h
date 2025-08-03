@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:34:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/23 18:03:08 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/03 19:11:40 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@
 # include "libft/libft.h"
 
 extern int	g_exit_status;
+
+typedef struct s_shell
+{
+    char **temp;
+    char *read;
+    char **main_env;
+    int exit_status;
+    struct s_stack	**env;
+    struct s_stack	**env_exp;
+    struct s_cmd	*cmd;
+}              t_shell;
 
 typedef enum e_token_type
 {
@@ -85,16 +96,16 @@ int		is_valid_word_token(const char *str);
 int		is_valid_cmd(const char *cmd);
 char	*strjoin_and_free(char *s1, char *s2);
 char	*extract_single_quote(char *input, int *i, int start, bool *quoted);
-char	*extract_dollar(char *input, int *i, int start);
-char	*extract_tilde(char *input, int *i, int start);
-char	*dollar_expansion(char *input, int *i, int start);
-char	*extract_double_quote(char *input, int *i, int start, bool *quoted);
-char	*extract_double_inner(char *input, int *i, int start);
+char	*extract_dollar(t_shell *shell, int *i, int start);
+char	*extract_tilde(t_shell *shell, int *i, int start);
+char	*dollar_expansion(t_shell *shell, int *i, int start);
+char	*extract_double_quote(t_shell *shell, int *i, int start, bool *quoted);
+char	*extract_double_inner(t_shell *shell, int *i, int start);
 char	*extract_word(char *input, int *i, int start);
-t_token	*extract_token(char *input, int *i);
-t_token	*tokenize_word(char *input, int *i, bool *quoted);
+t_token	*extract_token(t_shell *shell, int *i);
+t_token	*tokenize_word(t_shell *shell, int *i, bool *quoted);
 t_token	*tokenize_operator(char *input, int *i);
-t_token	*tokenizer(char *input);
+t_token	*tokenizer(t_shell *shell);
 int		lexer(t_token *tokens);
 t_cmd	*ft_add_args(t_cmd *new, t_token *token);
 t_cmd	*ft_add_cmd(t_cmd *new, t_token *token);
@@ -102,7 +113,7 @@ t_cmd	*ft_add_infile(t_cmd *new, t_token **token);
 t_cmd	*ft_add_outfile(t_cmd *new, t_token **token, bool append);
 t_cmd	*ft_add_heredoc(t_cmd *new, t_token **token);
 t_cmd	*converter(t_token *token);
-t_cmd	*parse(char *input);
+t_cmd	*parse(t_shell *shell);
 
 // execute 
 
@@ -111,16 +122,6 @@ t_cmd	*parse(char *input);
 #include <sys/stat.h> // stat
 #include <sys/wait.h>
 
-typedef struct s_shell
-{
-    char **temp;
-    char *read;
-    char **main_env;
-    int exit_status;
-    struct s_stack	**env;
-    struct s_stack	**env_exp;
-    struct s_cmd	*cmd;
-}              t_shell;
 
 typedef struct s_stack
 {
@@ -136,12 +137,13 @@ void start_exe(t_shell *shell, int prev_fd);
 // builtin
 void builtin(t_shell *shell, t_cmd *cmd);
 int ft_n(char *str);
-void    cmd_cd(t_cmd *cmd);
+void    cmd_cd(t_cmd *cmd, t_shell *shell);
 void cmd_env(t_stack **env);
 void cmd_export(char **temp, t_stack **env, t_stack **env_exp, int i);
 void cmd_unset(t_stack **env, t_stack **env_exp, char **temp);
 // komut çalıştırma 
 void	ft_execute(char **commands, char **ep, t_shell *shell);
+char	*find_value(t_stack **stack, char *name);
 void ft_heredoc(t_cmd *fakecmd, int i, int fd);
 
 // ortak yardımcı

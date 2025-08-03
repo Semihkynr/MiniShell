@@ -6,31 +6,32 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 22:03:32 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/22 12:41:38 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/03 19:14:39 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // Tokenizes word 
-t_token	*tokenize_word(char *input, int *i, bool *quoted)
+t_token	*tokenize_word(t_shell *shell, int *i, bool *quoted)
 {
 	char	*joined;
 	char	*part;
 
 	joined = NULL;
-	while (input[*i] && !ft_isspace(input[*i]) && !is_operator(input[*i]))
+	while (shell->read[*i] && !ft_isspace(shell->read[*i])
+	&& !is_operator(shell->read[*i]))
 	{
-		if (input[*i] == '\'')
-			part = extract_single_quote(input, i, 0, quoted);
-		else if (input[*i] == '"')
-			part = extract_double_quote(input, i, 0, quoted);
-		else if (input[*i] == '$')
-			part = extract_dollar(input, i, 0);
-		else if (!joined && input[*i] == '~')
-			part = extract_tilde(input, i, 0);
+		if (shell->read[*i] == '\'')
+			part = extract_single_quote(shell->read, i, 0, quoted);
+		else if (shell->read[*i] == '"')
+			part = extract_double_quote(shell, i, 0, quoted);
+		else if (shell->read[*i] == '$')
+			part = extract_dollar(shell, i, 0);
+		else if (!joined && shell->read[*i] == '~')
+			part = extract_tilde(shell, i, 0);
 		else
-			part = extract_word(input, i, 0);
+			part = extract_word(shell->read, i, 0);
 		if (!part)
 		{
 			free(joined);
@@ -59,7 +60,7 @@ t_token	*tokenize_operator(char *input, int *i)
 }
 
 // Main tokenizer function
-t_token	*tokenizer(char *input)
+t_token	*tokenizer(t_shell *shell)
 {
 	int		i;
 	t_token	*head;
@@ -67,12 +68,12 @@ t_token	*tokenizer(char *input)
 
 	head = NULL;
 	i = 0;
-	while (input[i])
+	while (shell->read[i])
 	{
-		skip_spaces(input, &i);
-		if (!input[i])
+		skip_spaces(shell->read, &i);
+		if (!shell->read[i])
 			break ;
-		new = extract_token(input, &i);
+		new = extract_token(shell, &i);
 		if (!new)
 		{
 			free_token(head);

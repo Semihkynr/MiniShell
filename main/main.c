@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:38:00 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/19 16:03:03 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:54:25 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ int	main(int argc, char **argv, char **enveiroment)
 			continue ;
 		}
 		add_history(shell->read);
-		shell->cmd = parse(shell->read);
+		shell->cmd = parse(shell);
+		// printf("%s\n",shell->cmd->args[0]);
+		// printf("%s\n",shell->cmd->args[1]);
 		start_exe(shell, -1);
 		free(shell->read);
 		free_cmd_list(shell->cmd);

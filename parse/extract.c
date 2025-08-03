@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 22:23:24 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/22 12:41:20 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/03 19:11:18 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,21 @@ char	*extract_single_quote(char *input, int *i, int start, bool *quoted)
 }
 
 // extract_double_quote helper function
-char	*extract_double_inner(char *input, int *i, int start)
+char	*extract_double_inner(t_shell *shell, int *i, int start)
 {
 	char	*joined;
 	char	*part;
 
 	joined = NULL;
-	while (input[*i] && input[*i] != '"')
+	while (shell->read[*i] && shell->read[*i] != '"')
 	{
-		if (input[*i] == '$')
-			part = extract_dollar(input, i, 0);
+		if (shell->read[*i] == '$')
+			part = extract_dollar(shell, i, 0);
 		else
 		{
 			start = *i;
-			skip_until_chars(input, i, "\"$");
-			part = ft_substr(input, start, (*i) - start);
+			skip_until_chars(shell->read, i, "\"$");
+			part = ft_substr(shell->read, start, (*i) - start);
 		}
 		joined = strjoin_and_free(joined, part);
 	}
@@ -63,19 +63,19 @@ char	*extract_double_inner(char *input, int *i, int start)
 }
 
 // Extracts  double quoted strings, supports adjacent segments and expansion
-char	*extract_double_quote(char *input, int *i, int start, bool *quoted)
+char	*extract_double_quote(t_shell *shell, int *i, int start, bool *quoted)
 {
 	char	*joined;
 	char	*part;
 
 	joined = NULL;
 	*quoted = true;
-	while (input[*i] == '"')
+	while (shell->read[*i] == '"')
 	{
 		(*i)++;
-		part = extract_double_inner(input, i, start);
+		part = extract_double_inner(shell, i, start);
 		joined = strjoin_and_free(joined, part);
-		if (input[*i] == '"')
+		if (shell->read[*i] == '"')
 			(*i)++;
 		else
 		{
@@ -96,12 +96,12 @@ char	*extract_word(char *input, int *i, int start)
 }
 
 // Extracts token
-t_token	*extract_token(char *input, int *i)
+t_token	*extract_token(t_shell *shell, int *i)
 {
 	bool	quoted;
 
 	quoted = false;
-	if (is_operator(input[*i]))
-		return (tokenize_operator(input, i));
-	return (tokenize_word(input, i, &quoted));
+	if (is_operator(shell->read[*i]))
+		return (tokenize_operator(shell->read, i));
+	return (tokenize_word(shell, i, &quoted));
 }
