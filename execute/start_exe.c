@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:33:21 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/23 13:29:39 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/03 19:57:50 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,22 @@ void only_command(t_cmd *fakecmd, t_shell *shell)
     }
 }
 
-void ft_parent(t_cmd *fakecmd, int *prev_fd, int *fd, pid_t pid)
+void	ft_parent(t_cmd *fakecmd, int *prev_fd, int *fd, pid_t pid)
 {
-    int status;
-    
-    if (*prev_fd != -1)
-        close(*prev_fd);
-    if (fakecmd->next)
-    {
-        close(fd[1]);
-        *prev_fd = fd[0];
-    }
-    waitpid(pid, &status, 0);
+	int	status;
+
+	if (*prev_fd != -1)
+		close(*prev_fd);
+	if (fakecmd->next)
+	{
+		close(fd[1]);
+		*prev_fd = fd[0];
+	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		g_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_exit_status = 128 + WTERMSIG(status);
 }
 
 void ft_child(t_shell *shell, t_cmd *fakecmd, int *prev_fd , int *fd)
@@ -136,7 +140,7 @@ void start_exe(t_shell *shell, int prev_fd)
         only_command(fakecmd, shell);
     else
     {
-      while (fakecmd)
+        while (fakecmd)
         {
             if (fakecmd->next && pipe(fd) < 0)
             {
