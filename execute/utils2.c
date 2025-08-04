@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 17:26:23 by skaynar           #+#    #+#             */
-/*   Updated: 2025/07/07 18:19:26 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 15:59:57 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	swap_nodes(t_stack *a, t_stack *b)
 {
 	char	*tmp_var;
 	char	*tmp_value;
-	char 	tmp_equals;
-	char 	tmp_nail;
-	
+	char	tmp_equals;
+	char	tmp_nail;
+
 	tmp_equals = a->equals;
 	a->equals = b->equals;
 	b->equals = tmp_equals;
@@ -57,20 +57,21 @@ void	sort_env_list(t_stack *head)
 	}
 }
 
-void create_stack(t_shell *shell , char **enveironment)
+void	create_stack(t_shell *shell, char **enveironment)
 {
-	char **arr;
-	int i;
-	
+	char	**arr;
+	int		i;
+
 	i = 0;
-	while(enveironment[i])
+	while (enveironment[i])
 	{
-		arr = split_once(enveironment[i] , 0);
-		if(arr[1] && arr[0] && arr[1][0] != '\0')
+		arr = split_once(enveironment[i], 0);
+		if (arr[1] && arr[0] && arr[1][0] != '\0')
 		{
-			
-			sk_lstadd_back(shell->env, sk_lstnew(ft_strdup(arr[0]), ft_strdup(arr[1])));
-			sk_lstadd_back(shell->env_exp, sk_lstnew(ft_strdup(arr[0]), ft_strdup(arr[1])));
+			sk_lstadd_back(shell->env, sk_lstnew(ft_strdup(arr[0]),
+					ft_strdup(arr[1])));
+			sk_lstadd_back(shell->env_exp, sk_lstnew(ft_strdup(arr[0]),
+					ft_strdup(arr[1])));
 		}
 		else
 		{

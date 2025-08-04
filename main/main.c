@@ -6,37 +6,41 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:38:00 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/03 20:21:01 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 16:20:50 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	g_exit_status = 0;
+int		g_exit_status;
+g_exit_status = 0;
 
 void	sigint_handler(int sig);
 
-void fake_main(t_shell *shell)
+void	fake_main(t_shell *shell)
 {
+	t_cmd	*fakecmd;
+
 	while (1)
 	{
 		shell->read = readline("minishell> ");
-		if (!shell->read) // for ctrl + d (prints exit\n and quits)
+		if (!shell->read)
 		{
 			printf("exit\n");
 			g_exit_status = 131;
-			break;
+			break ;
 		}
-		if (!(*shell->read)) // for Enter (reads again)
+		if (!(*shell->read))
 		{
 			free(shell->read);
 			continue ;
 		}
 		add_history(shell->read);
 		shell->cmd = parse(shell);
-		if(!shell->cmd)
+		if (!shell->cmd)
 			g_exit_status = 2;
-		start_exe(shell, -1);
+		fakecmd = shell->cmd;
+		start_exe(shell, -1, fakecmd);
 		free(shell->read);
 		free_cmd_list(shell->cmd);
 	}
@@ -44,13 +48,14 @@ void fake_main(t_shell *shell)
 
 int	main(int argc, char **argv, char **enveiroment)
 {
+	t_shell	*shell;
+
 	(void)argc;
 	(void)argv;
-	signal(SIGINT, sigint_handler); // for ctrl + c (prints newline)
-	signal(SIGQUIT, SIG_IGN); // for ctrl + / (does nothing)
-	t_shell *shell;
-    shell = ft_calloc(1 , sizeof(t_shell));
-    if(!shell)
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+	shell = ft_calloc(1, sizeof(t_shell));
+	if (!shell)
 	{
 		free_shell(shell);
 		exit(1);

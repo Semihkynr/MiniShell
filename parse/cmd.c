@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:05:32 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/19 16:15:29 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:13:36 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Frees cmd/cmds
 void	free_cmd(t_cmd *head)
 {
 	t_cmd	*tmp;
@@ -37,7 +36,6 @@ void	free_cmd(t_cmd *head)
 	}
 }
 
-// Initializes cmds
 t_cmd	*init_cmd(void)
 {
 	t_cmd	*new;
@@ -56,7 +54,6 @@ t_cmd	*init_cmd(void)
 	return (new);
 }
 
-// Adds cmds back
 void	add_cmd(t_cmd *head, t_cmd *new)
 {
 	t_cmd	*prev;

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   assign_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:54:55 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/19 16:04:27 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:13:23 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Adds arguments to args (args already has MAX_INPUT time *args)
 t_cmd	*ft_add_args(t_cmd *new, t_token *token)
 {
 	int	i;
@@ -25,10 +24,9 @@ t_cmd	*ft_add_args(t_cmd *new, t_token *token)
 	new->args[i] = ft_strdup(token->value);
 	if (!(new->args[i]))
 		return (NULL);
-	return (new);	
+	return (new);
 }
 
-// Adds command to cmd/arg and checks for already existing commands
 t_cmd	*ft_add_cmd(t_cmd *new, t_token *token)
 {
 	if (!new->cmd)
@@ -40,9 +38,8 @@ t_cmd	*ft_add_cmd(t_cmd *new, t_token *token)
 	return (ft_add_args(new, token));
 }
 
-// Adds next token->value to infile and it checks access too
 t_cmd	*ft_add_infile(t_cmd *new, t_token **token)
-{	
+{
 	int	i;
 
 	i = 0;
@@ -62,7 +59,6 @@ t_cmd	*ft_add_infile(t_cmd *new, t_token **token)
 	return (new);
 }
 
- // Adds next token->value to outfile, it checks access and assigns append
 t_cmd	*ft_add_outfile(t_cmd *new, t_token **token, bool append)
 {
 	int	i;
@@ -73,8 +69,8 @@ t_cmd	*ft_add_outfile(t_cmd *new, t_token **token, bool append)
 	if (!(*token)->next)
 		return (NULL);
 	*token = (*token)->next;
-	if (access((*token)->value, F_OK) == 0
-		&& access((*token)->value, W_OK) != 0)
+	if (access((*token)->value, F_OK) == 0 && access((*token)->value,
+			W_OK) != 0)
 	{
 		print_file_error((*token)->value);
 		return (NULL);
@@ -86,7 +82,6 @@ t_cmd	*ft_add_outfile(t_cmd *new, t_token **token, bool append)
 	return (new);
 }
 
-// Adds next token->value to heredoc_delim
 t_cmd	*ft_add_heredoc(t_cmd *new, t_token **token)
 {
 	int	i;
@@ -100,5 +95,5 @@ t_cmd	*ft_add_heredoc(t_cmd *new, t_token **token)
 	new->heredoc_delim[i] = ft_strdup((*token)->value);
 	if (!new->heredoc_delim[i])
 		return (NULL);
-	return (new);	
+	return (new);
 }

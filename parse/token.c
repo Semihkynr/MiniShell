@@ -6,18 +6,17 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:40:24 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/22 12:42:02 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 16:14:55 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Initializes token
 t_token	*init_token(void)
 {
 	t_token	*head;
 
-	head = ft_calloc(1 ,sizeof(t_token));
+	head = ft_calloc(1, sizeof(t_token));
 	if (!head)
 	{
 		printf("Token can not be initialized\n");
@@ -26,11 +25,10 @@ t_token	*init_token(void)
 	return (head);
 }
 
-// Frees token/tokens
 void	free_token(t_token *head)
 {
-	t_token *temp;
-	t_token *next;
+	t_token	*temp;
+	t_token	*next;
 
 	temp = head;
 	while (temp)
@@ -43,7 +41,6 @@ void	free_token(t_token *head)
 	}
 }
 
-// Adds token back
 void	add_token(t_token *head, t_token *new)
 {
 	t_token	*prev;
@@ -56,7 +53,6 @@ void	add_token(t_token *head, t_token *new)
 	prev->next = new;
 }
 
-// Initializes and assigns token
 t_token	*assign_token(char *value, bool *quoted)
 {
 	t_token	*new;

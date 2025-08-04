@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 22:57:15 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/03 19:56:24 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 16:14:57 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ void	free_double(char **args)
 	free(args);
 }
 
-// Custom file error printer
 void	print_file_error(char *file_name)
 {
 	ft_putstr_fd("minishell: ", 2);
 	perror(file_name);
 }
 
-// Custom syntax error printer
 void	print_syntax_error(char *token, int mod)
 {
 	if (mod == 0)
@@ -42,6 +40,6 @@ void	print_syntax_error(char *token, int mod)
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token '", 2);
 		ft_putstr_fd(token, 2);
-		ft_putstr_fd("'\n", 2);	
+		ft_putstr_fd("'\n", 2);
 	}
 }

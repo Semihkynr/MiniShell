@@ -6,30 +6,29 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:12:53 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/03 19:29:23 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 16:15:42 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Extract dollars inner part 
-char	*dollar_expansion(t_shell *shell , int *i, int start)
+char	*dollar_expansion(t_shell *shell, int *i, int start)
 {
 	char	*name;
 	char	*value;
 
 	start = *i;
-	while (shell->read[*i] && (ft_isalnum(shell->read[*i]) || shell->read[*i] == '_'))
+	while (shell->read[*i] && (ft_isalnum(shell->read[*i])
+			|| shell->read[*i] == '_'))
 		(*i)++;
 	name = ft_substr(shell->read, start, *i - start);
-	value = find_value(shell->env, name); // env gelcek
+	value = find_value(shell->env, name);
 	free(name);
 	if (!value)
 		return (ft_substr(shell->read, start, *i - start));
 	return (ft_strdup(value));
 }
 
-// Extract dollar expansions
 char	*extract_dollar(t_shell *shell, int *i, int start)
 {
 	char	c;
@@ -51,21 +50,20 @@ char	*extract_dollar(t_shell *shell, int *i, int start)
 	return (dollar_expansion(shell, i, start));
 }
 
-// Extract tilde expansions
 char	*extract_tilde(t_shell *shell, int *i, int start)
 {
 	char	*path;
 	char	*home;
-	
-	home = find_value(shell->env, "HOME"); // env gelcek
+
+	home = find_value(shell->env, "HOME");
 	if (!home)
 		return (ft_strdup("~"));
 	(*i)++;
-	if (!shell->read[(*i)]) // ~
+	if (!shell->read[(*i)])
 		return (ft_strdup(home));
-	else if (shell->read[*i] != '/') // ~somegibberish
+	else if (shell->read[*i] != '/')
 		return (ft_strdup("~"));
-	else // ~/somegibberish
+	else
 	{
 		start = (*i);
 		while (shell->read[*i])

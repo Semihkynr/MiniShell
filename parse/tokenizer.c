@@ -6,13 +6,12 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 22:03:32 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/04 13:25:48 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 16:14:45 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Tokenizes word 
 t_token	*tokenize_word(t_shell *shell, int *i, bool *quoted)
 {
 	char	*joined;
@@ -20,7 +19,7 @@ t_token	*tokenize_word(t_shell *shell, int *i, bool *quoted)
 
 	joined = NULL;
 	while (shell->read[*i] && !ft_isspace(shell->read[*i])
-	&& !is_operator(shell->read[*i]))
+		&& !is_operator(shell->read[*i]))
 	{
 		if (shell->read[*i] == '\'')
 			part = extract_single_quote(shell->read, i, 0, quoted);
@@ -45,14 +44,13 @@ t_token	*tokenize_word(t_shell *shell, int *i, bool *quoted)
 	return (assign_token(joined, quoted));
 }
 
-// Tokenizes operator
 t_token	*tokenize_operator(char *input, int *i)
 {
 	int		start;
 	char	*op;
 	bool	quoted;
 
-	quoted = false; 
+	quoted = false;
 	start = *i;
 	while (input[*i] && is_operator(input[*i]) && !ft_isspace(input[*i]))
 		(*i)++;
@@ -62,7 +60,6 @@ t_token	*tokenize_operator(char *input, int *i)
 	return (assign_token(op, &quoted));
 }
 
-// Main tokenizer function
 t_token	*tokenizer(t_shell *shell)
 {
 	int		i;

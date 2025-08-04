@@ -6,13 +6,12 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 22:23:24 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/03 19:11:18 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 16:14:08 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Extracts  single quoted strings, supports adjacent segments
 char	*extract_single_quote(char *input, int *i, int start, bool *quoted)
 {
 	char	*joined;
@@ -26,7 +25,6 @@ char	*extract_single_quote(char *input, int *i, int start, bool *quoted)
 		start = *i;
 		while (input[*i] && input[*i] != '\'')
 			(*i)++;
-		// Check if quote was closed
 		if (input[*i] != '\'')
 		{
 			print_syntax_error("single quote", 0);
@@ -40,7 +38,6 @@ char	*extract_single_quote(char *input, int *i, int start, bool *quoted)
 	return (joined);
 }
 
-// extract_double_quote helper function
 char	*extract_double_inner(t_shell *shell, int *i, int start)
 {
 	char	*joined;
@@ -62,7 +59,6 @@ char	*extract_double_inner(t_shell *shell, int *i, int start)
 	return (joined);
 }
 
-// Extracts  double quoted strings, supports adjacent segments and expansion
 char	*extract_double_quote(t_shell *shell, int *i, int start, bool *quoted)
 {
 	char	*joined;
@@ -87,7 +83,6 @@ char	*extract_double_quote(t_shell *shell, int *i, int start, bool *quoted)
 	return (joined);
 }
 
-// Extracts word
 char	*extract_word(char *input, int *i, int start)
 {
 	start = *i;
@@ -95,7 +90,6 @@ char	*extract_word(char *input, int *i, int start)
 	return (ft_substr(input, start, *i - start));
 }
 
-// Extracts token
 t_token	*extract_token(t_shell *shell, int *i)
 {
 	bool	quoted;

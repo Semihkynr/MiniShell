@@ -6,31 +6,27 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 22:04:02 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/05/31 19:57:13 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 16:13:30 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Checks if space
 int	ft_isspace(char c)
 {
 	return ((c == ' ') || (c >= '\t' && c <= '\r'));
 }
 
-// Checks if operator
 int	is_operator(char c)
 {
 	return (c == '>' || c == '<' || c == '|');
 }
 
-// Checks if is equal
 int	ft_iseq(const char *a, const char *b)
 {
 	return (ft_strncmp(a, b, ft_strlen(b) + 1) == 0);
 }
 
-// Checks if is valid word token
 int	is_valid_word_token(const char *str)
 {
 	int	i;
@@ -49,7 +45,6 @@ int	is_valid_word_token(const char *str)
 	return (1);
 }
 
-// Checks if is valid cmd
 int	is_valid_cmd(const char *cmd)
 {
 	int			i;

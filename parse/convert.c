@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   convert.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yesoytur <yesoytur@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:59:48 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/07/19 21:24:52 by yesoytur         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:15:09 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Handles inner loop of convert
 t_cmd	*convert_inner(t_token **token)
 {
 	t_cmd	*new;
@@ -42,7 +41,6 @@ t_cmd	*convert_inner(t_token **token)
 	return (new);
 }
 
-// Converts tokens to cmds
 t_cmd	*converter(t_token *token)
 {
 	t_cmd	*head;
@@ -54,7 +52,7 @@ t_cmd	*converter(t_token *token)
 		new = convert_inner(&token);
 		if (!new)
 		{
-			free_cmd(head); 
+			free_cmd(head);
 			return (NULL);
 		}
 		if (!head)
