@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:07:47 by skaynar           #+#    #+#             */
-/*   Updated: 2025/08/04 13:47:22 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 15:22:45 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	exit_helper(t_shell *shell , int *exit_code)
 		exit(2);
 	}
 }
+// "/home/skaynar/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/skaynar/.dotnet/tools:/home/skaynar/.local/bin:/home/skaynar/.local/bin:/home/skaynar/.venv/bin:/home/skaynar/.venv/bin"
+
 
 int	ft_exit(t_shell *shell)
 {
