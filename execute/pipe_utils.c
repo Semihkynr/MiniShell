@@ -76,13 +76,13 @@ void	ft_execute(char **commands, char **ep, t_shell *shell)
 	char	*path;
 
 	if (!commands || !commands[0])
-		return;
+		return ;
 	path = ft_get_cmd(commands[0], shell->env);
 	if (execve(path, commands, ep) == -1)
 	{
 		ft_putstr_fd(commands[0], 2);
 		ft_putendl_fd(": command not found", 2);
-	    free_cmd_list(shell->cmd);
+		free_cmd_list(shell->cmd);
 		free_shell(shell);
 		exit(127);
 	}

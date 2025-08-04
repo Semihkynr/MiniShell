@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:34:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/03 19:11:40 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 13:35:46 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ void	clear_array(char **array);
 void	sk_lstclear(t_stack **lst);
 void free_cmd_list(t_cmd *cmd);
 int	ft_exit(t_shell *shell);
-void	exit_helper(t_cmd *cmd, int *exit_code);
+void	exit_helper(t_shell *shell , int *exit_code);
 int	is_numeric(char *str);
 void	set_exit_status_code(int status);
 int	*get_exit_status_code(void);

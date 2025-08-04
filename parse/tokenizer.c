@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 22:03:32 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/03 19:14:39 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 13:25:48 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ t_token	*tokenize_word(t_shell *shell, int *i, bool *quoted)
 		else if (shell->read[*i] == '"')
 			part = extract_double_quote(shell, i, 0, quoted);
 		else if (shell->read[*i] == '$')
+		{
 			part = extract_dollar(shell, i, 0);
+			g_exit_status = 0;
+		}
 		else if (!joined && shell->read[*i] == '~')
 			part = extract_tilde(shell, i, 0);
 		else

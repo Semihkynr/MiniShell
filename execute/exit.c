@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:07:47 by skaynar           #+#    #+#             */
-/*   Updated: 2025/08/03 19:38:21 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 13:47:22 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,24 @@ int	is_numeric(char *str)
 	return (1);
 }
 
-void	exit_helper(t_cmd *cmd, int *exit_code)
+void	exit_helper(t_shell *shell , int *exit_code)
 {
 	int	num;
 
-	if (is_numeric(cmd->args[1]))
+	if (is_numeric(shell->cmd->args[1]))
 	{
-		num = ft_atoi(cmd->args[1]);
+		num = ft_atoi(shell->cmd->args[1]);
 		*exit_code = (unsigned char)num;
 		set_exit_status_code(*exit_code);
 	}
 	else
 	{
 		write(2, "minishell: exit: ", 18);
-		write(2, cmd->args[1], ft_strlen(cmd->args[1]));
+		write(2, shell->cmd->args[1], ft_strlen(shell->cmd->args[1]));
 		write(2, ": numeric argument required\n", 29);
 		set_exit_status_code(2);
+    	free_cmd_list(shell->cmd);
+		free_shell(shell);
 		exit(2);
 	}
 }
@@ -72,11 +74,12 @@ int	ft_exit(t_shell *shell)
 	if (argc == 1)
 		exit_code = *get_exit_status_code();
 	else if (argc == 2 || !is_numeric(shell->cmd->args[1]))
-		exit_helper(shell->cmd, &exit_code);
+		exit_helper(shell, &exit_code);
 	else
 	{
 		write(2, "minishell: too many arguments\n", 31);
 		set_exit_status_code(1);
+		g_exit_status = 1;
 		return (1);
 	}
     free_cmd_list(shell->cmd);

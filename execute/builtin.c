@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:12:30 by skaynar           #+#    #+#             */
-/*   Updated: 2025/08/03 19:12:42 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 13:09:48 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void builtin(t_shell *shell, t_cmd *cmd)
     else if(ft_strcmp(cmd->cmd, "exit") == 0)
         ft_exit(shell);
     else
-        return;
+        return ;
 }
 
 // ◦ export with no options
