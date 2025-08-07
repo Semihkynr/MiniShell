@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:14:40 by skaynar           #+#    #+#             */
-/*   Updated: 2025/08/04 16:10:44 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/07 22:09:23 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,11 @@ void	cmd_export(char **temp, t_stack **env, t_stack **env_exp, int i)
 
 	if (!temp[1])
 	{
-		sort_env_list((*env_exp));
+		sort_env_list(*env_exp);
 		tmp = *env_exp;
 		while (tmp)
 		{
-			// if (tmp->value)
-			// 	printf("declare -x %s%c%c%s%c\n", tmp->var, tmp->equals,
-			// 		tmp->nail, tmp->value, tmp->nail);
-			// else
-			// 	printf("declare -x %s\n", tmp->var);
+			print_export_line(tmp);
 			tmp = tmp->next;
 		}
 	}
@@ -112,12 +108,9 @@ void	cmd_export(char **temp, t_stack **env, t_stack **env_exp, int i)
 		while (temp[i])
 		{
 			if (add_check(temp[i]))
-				// {
-				// 	ft_putstr_fd("bash: export: '", 2);
-				// 	ft_putstr_fd(temp[i], 2);
-				// 	ft_putstr_fd("': not a valid identifier\n", 2);
-				// }
-				else add_export(env_exp, env, temp[i]);
+				printf("bash: export: '%s': not a valid idetifier\n", temp[i]);
+			else
+				add_export(env_exp, env, temp[i]);
 			i++;
 		}
 	}

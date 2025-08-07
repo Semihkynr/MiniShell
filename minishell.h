@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:34:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/04 16:21:42 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/04 17:56:32 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ typedef struct s_stack
 }					t_stack;
 
 void				shell_init(t_shell *shell, char **env);
-void				start_exe(t_shell *shell, int prev_fd);
+void				start_exe(t_shell *shell, int prev_fd, t_cmd *fakecmd);
 void				builtin(t_shell *shell, t_cmd *cmd);
 int					ft_n(char *str);
 void				cmd_cd(t_cmd *cmd, t_shell *shell);

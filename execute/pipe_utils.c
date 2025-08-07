@@ -44,19 +44,20 @@ char	*ft_get_path(char **ep)
 	return (path);
 }
 
-char	*ft_get_cmd(char *cmd, t_stack **env)
+char	*ft_get_cmd(char *cmd, t_stack **env, int i)
 {
 	char	**path;
 	char	*part;
 	char	**opt;
 	char	*exec;
-	int		i;
 
+	if (cmd && (ft_strchr(cmd, '/') || cmd[0] == '.'))
+		return (ft_strdup(cmd));
 	i = -1;
 	path = ft_split(find_value(env, "PATH"), ':');
 	opt = ft_split(cmd, ' ');
 	if (!opt || !path)
-		exit(0);
+		return (clear_array(path), clear_array(opt), NULL);
 	while (path[++i])
 	{
 		part = ft_strjoin(path[i], "/");
@@ -77,7 +78,7 @@ void	ft_execute(char **commands, char **ep, t_shell *shell)
 
 	if (!commands || !commands[0])
 		return ;
-	path = ft_get_cmd(commands[0], shell->env);
+	path = ft_get_cmd(commands[0], shell->env, -1);
 	if (execve(path, commands, ep) == -1)
 	{
 		ft_putstr_fd(commands[0], 2);

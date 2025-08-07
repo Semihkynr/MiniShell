@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 18:23:05 by skaynar           #+#    #+#             */
-/*   Updated: 2025/08/04 16:05:30 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/07 22:09:31 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,13 @@ void	take_infile(t_cmd *fakecmd)
 			i++;
 		}
 	}
+}
+
+void	print_export_line(t_stack *node)
+{
+	if (node->value)
+		printf("declare -x %s%c%c%s%c\n",
+			node->var, node->equals, node->nail, node->value, node->nail);
+	else
+		printf("declare -x %s\n", node->var);
 }

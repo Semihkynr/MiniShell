@@ -6,14 +6,13 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:38:00 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/04 16:20:50 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/07 22:09:49 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		g_exit_status;
-g_exit_status = 0;
+int	g_exit_status = 0;
 
 void	sigint_handler(int sig);
 
