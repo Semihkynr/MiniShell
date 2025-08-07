@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 22:03:32 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/04 16:14:45 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/07 22:14:19 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ t_token	*tokenize_word(t_shell *shell, int *i, bool *quoted)
 		else
 			part = extract_word(shell->read, i, 0);
 		if (!part)
-		{
-			free(joined);
-			return (NULL);
-		}
+			return (free(joined), NULL);
 		joined = strjoin_and_free(joined, part);
 	}
 	return (assign_token(joined, quoted));
