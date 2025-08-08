@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:34:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/08 18:18:46 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:45:31 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_shell
 	char			**temp;
 	char			*read;
 	char			**main_env;
-	int				exit_status;
 	struct s_stack	**env;
 	struct s_stack	**env_exp;
 	struct s_cmd	*cmd;
