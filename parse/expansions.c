@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:12:53 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/04 16:15:42 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:39:00 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*extract_dollar(t_shell *shell, int *i, int start)
 	if (c == '0')
 		return ((*i)++, ft_strdup("bash"));
 	if (c == '-')
-		return ((*i)++, ft_strdup("himBH"));
+		return ((*i)++, ft_strdup("himBHs"));
 	if (c == '?')
 		return ((*i)++, ft_itoa(g_exit_status));
 	if (c == '#')
@@ -57,7 +57,7 @@ char	*extract_tilde(t_shell *shell, int *i, int start)
 
 	home = find_value(shell->env, "HOME");
 	if (!home)
-		return (ft_strdup("~"));
+		home = getenv("HOME");
 	(*i)++;
 	if (!shell->read[(*i)])
 		return (ft_strdup(home));

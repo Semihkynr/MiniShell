@@ -6,7 +6,7 @@
 /*   By: skaynar <skaynar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 22:34:54 by yesoytur          #+#    #+#             */
-/*   Updated: 2025/08/04 17:56:32 by skaynar          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:18:46 by skaynar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void				cmd_cd(t_cmd *cmd, t_shell *shell);
 void				cmd_env(t_stack **env);
 void				cmd_export(char **temp, t_stack **env, t_stack **env_exp,
 						int i);
+void				print_export_line(t_stack *node);
 void				cmd_unset(t_stack **env, t_stack **env_exp, char **temp);
 void				ft_execute(char **commands, char **ep, t_shell *shell);
 char				*find_value(t_stack **stack, char *name);
