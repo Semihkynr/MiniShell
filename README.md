@@ -38,6 +38,5 @@ Minishell operates directly from the terminal, executing user commands and displ
    ```bash
   ./minishell
 
-
 ### Exit
   To exit Minishell, use the exit command.
