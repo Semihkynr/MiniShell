@@ -29,9 +29,13 @@ Minishell operates directly from the terminal, executing user commands and displ
 1. Clone the repository:
    ```bash
    git clone https://github.com/username/minishell.git
+
 2. Build the project:
-    make
+    ```bash
+   make
+
 3.Run the shell:
+   ```bash
   ./minishell
 
 
